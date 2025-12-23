@@ -20,7 +20,7 @@ export const ActiveBookCard = () => {
         <span>by Author Name</span>
         <span>{totalPages} pages</span>
         <span>2020</span>
-        <ProgressBar percent={progressPercent}/>
+        <ProgressBar percent={progressPercent} totalPages={totalPages} pagesRead={pagesRead}/>
       </div>
     </div>
   );
