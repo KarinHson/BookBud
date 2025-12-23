@@ -6,7 +6,9 @@ interface ProgressBarProps {
 
 export const ProgressBar = ({ percent }: ProgressBarProps) => {
   return (
-    <div className='progress-wrapper'>
+    <div className='progress-wrapper'
+    role='progress bar'
+    aria-label={`${percent}% read`}>
       <div
         className='progress-fill'
         style={{ width: `${percent}%` }}
