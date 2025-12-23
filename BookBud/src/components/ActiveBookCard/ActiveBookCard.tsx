@@ -1,4 +1,5 @@
 import './ActiveBookCard.scss';
+import { ProgressBar } from '../ProgressBar/ProgressBar';
 
 export const ActiveBookCard = () => {
   const totalPages = 302;
@@ -19,12 +20,7 @@ export const ActiveBookCard = () => {
         <span>by Author Name</span>
         <span>{totalPages} pages</span>
         <span>2020</span>
-
-        <div className="progress-wrapper">
-          <div className="progress-fill">
-            {progressPercent >= 10 && <span>{progressPercent}%</span>}
-          </div>
-        </div>
+        <ProgressBar percent={progressPercent}/>
       </div>
     </div>
   );
