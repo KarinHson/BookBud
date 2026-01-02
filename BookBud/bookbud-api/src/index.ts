@@ -2,10 +2,15 @@ import mongoose from 'mongoose';
 import express from 'express';
 import dotenv from 'dotenv';
 import booksRouter from './routes/books';
-
-const app = express();
+import cors from 'cors'; 
 
 dotenv.config(); // reads the .env file
+
+const app = express();
+const PORT = process.env.PORT || 5000;
+
+app.use(cors());
+app.use(express.json());
 
 const mongoUrl = process.env.MONGODB_URL;
 
@@ -21,12 +26,8 @@ mongoose.connect(mongoUrl)
     console.error('❌ MongoDB connection error:', error);
   });
 
-  const PORT = process.env.PORT || 5000;
-
   app.use('/api/books', booksRouter)
 
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
-
-
