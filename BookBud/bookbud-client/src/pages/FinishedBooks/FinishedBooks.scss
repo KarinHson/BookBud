@@ -1,0 +1,42 @@
+.finished-books-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+
+  .header {
+    margin-bottom: 2rem;
+
+    h1 {
+      color: #b06c00;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      color: #8c5a00;
+    }
+  }
+
+  .books-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+
+  .empty-state {
+    background-color: #fff;
+    border-radius: 2rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    padding: 3rem;
+    text-align: center;
+
+    p:first-child {
+      font-weight: bold;
+      margin-bottom: 1rem;
+      color: #b06c00;
+    }
+
+    p:last-child {
+      color: #8c5a00;
+    }
+  }
+}
