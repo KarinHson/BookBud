@@ -1,4 +1,5 @@
 import { Users, Trophy, Award } from 'lucide-react';
+import { TopReaderMembersProgress } from '../../components/TopReaderMembersProgress/TopReaderMembersProgress'
 import './MembersProgress.scss';
 
 // mocked data for now
@@ -44,6 +45,8 @@ export const MembersProgress = ({
 
   // sort after pagesRead, most first
   const sortedMembers = [...membersList].sort((a, b) => b.pagesRead - a.pagesRead);
+  //topReader is always first in sortedMembers
+  const topReader = sortedMembers[0];
 
   // Top 3 medals
   const medals = [
@@ -59,6 +62,11 @@ export const MembersProgress = ({
         <h1>Club Members' Progress</h1>
         <p>See how everyone is doing with "{book.title}"</p>
       </div>
+
+    <TopReaderMembersProgress 
+    name={topReader.name} 
+     pagesRead={topReader?.pagesRead ?? 0}
+        />
 
       {sortedMembers.length === 0 ? (
         <div className="no-members">
