@@ -1,62 +1,62 @@
 import { Book, Users, Archive, Settings } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './Header.scss';
 
 interface HeaderProps {
-  currentScreen: 'active-book' | 'admin-panel' | 'members-progress' | 'finished-books';
-  onNavigate: (screen: 'active-book' | 'admin-panel' | 'members-progress' | 'finished-books') => void;
   isAdmin: boolean;
 }
 
-export const Header = ({ currentScreen, onNavigate, isAdmin }: HeaderProps) => {
+export const Header = ({ isAdmin }: HeaderProps) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const navItems = [
-    { id: 'active-book', label: 'Active Book', icon: Book },
-    { id: 'members-progress', label: "Members' Progress", icon: Users },
-    { id: 'finished-books', label: 'Finished Books', icon: Archive },
-    ...(isAdmin ? [{ id: 'admin-panel', label: 'Admin Panel', icon: Settings }] : []),
+    { id: 'user-dashboard', label: 'Active Book', path: '/active-book', icon: Book },
+    { id: 'members', label: "Members' Progress", path: '/members-progress', icon: Users },
+    { id: 'finished', label: 'Finished Books', path: '/finished-books', icon: Archive },
+    ...(isAdmin ? [{ id: 'admin', label: 'Admin Panel', path: '/admin-panel', icon: Settings }] : []),
   ];
 
   return (
     <header className="header">
       <div className="header-container">
         {/* Logo */}
-        <div className="logo">
+        <div className="logo" onClick={() => navigate('/active-book')} style={{ cursor: 'pointer' }}>
           <div className="logo-icon">
             <Book />
           </div>
           <span className="logo-text">BookBud</span>
         </div>
 
-        {/* Navigation - Desktop */}
+        {/* Desktop navigation */}
         <div className="nav-desktop">
           {navItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = currentScreen === item.id;
+            const isActive = location.pathname === item.path;
             return (
               <button
                 key={item.id}
                 className={`nav-button ${isActive ? 'active' : ''}`}
-                onClick={() => onNavigate(item.id as any)}
+                onClick={() => navigate(item.path)}
               >
-                <Icon className="nav-icon" />
+                <item.icon className="nav-icon" />
                 <span className="nav-label">{item.label}</span>
               </button>
             );
           })}
         </div>
 
-        {/* Navigation - Mobile: only icons */}
+        {/* Mobile navigation: only icons */}
         <div className="nav-mobile">
           {navItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = currentScreen === item.id;
+            const isActive = location.pathname === item.path;
             return (
               <button
                 key={item.id}
                 className={`nav-button-mobile ${isActive ? 'active' : ''}`}
-                onClick={() => onNavigate(item.id as any)}
+                onClick={() => navigate(item.path)}
                 aria-label={item.label}
               >
-                <Icon className="nav-icon-mobile" />
+                <item.icon className="nav-icon-mobile" />
               </button>
             );
           })}
