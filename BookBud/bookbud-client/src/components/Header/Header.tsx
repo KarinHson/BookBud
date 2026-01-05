@@ -1,4 +1,4 @@
-import { Book, Users, Archive, Settings } from 'lucide-react';
+import { Book, Users, Archive, Settings, LogOut } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './Header.scss';
 
@@ -61,6 +61,16 @@ export const Header = ({ isAdmin }: HeaderProps) => {
             );
           })}
         </div>
+         {/* Log out */}
+        <button
+          className="logout-button"
+          aria-label="Log out"
+          title="Log out"
+          // onClick={() => {}}
+        >
+          <LogOut />
+          <span className="logout-text">Log out</span>
+        </button>
       </div>
     </header>
   );
