@@ -45,7 +45,7 @@ export const Login = () => {
           </form>
 
           <p className="login-tip">
-            Tip: Use "admin" as username to access admin features
+            Tip: Use "Emma G" as username & password to access regular features. Use "Karin H" as username & password to access admin features
           </p>
         </div>
 
