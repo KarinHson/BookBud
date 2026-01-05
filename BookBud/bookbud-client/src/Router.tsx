@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router';
 import { Layout } from './pages/Layout';
 import { ActiveBook } from './pages/ActiveBook/ActiveBook';
-import { AdminPage } from './pages/AdminPage/AdminPage';
+import { AdminPanel } from './pages/AdminPanel/AdminPanel';
 import { FinishedBooks } from './pages/FinishedBooks/FinishedBooks';
 import { Login } from './pages/Login/Login';
 import { MembersProgress } from './pages/MembersProgress/MembersProgress';
@@ -26,8 +26,8 @@ export const router = createBrowserRouter([
                 element: <FinishedBooks/>
             },
             {
-                path: '/admin-page',
-                element: <AdminPage/>
+                path: '/admin-panel',
+                element: <AdminPanel/>
             },
             {
                 path: '/members-progress',
