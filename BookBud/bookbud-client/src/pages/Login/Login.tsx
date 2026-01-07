@@ -1,7 +1,45 @@
 import './Login.scss';
 import { Book, User } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const Login = () => {
+
+    const { login } = useAuth()
+    const navigate = useNavigate()
+    
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+    
+        //mocked users for now
+        try {
+            const mockUsers = [
+          { id: '1', userName: 'alice', password: '123', isAdmin: false },
+          { id: '2', userName: 'bob', password: '123', isAdmin: true },
+        ];
+    
+        const foundUser = mockUsers.find(
+            (u) => u.userName === username && u.password === password
+        );
+    
+        if (foundUser) {
+            login(foundUser);
+            setError('');
+            navigate('/active-book', { replace: true })
+        } else {
+            setError('Invalid username or password');
+        } 
+    
+        } catch(err) {
+            setError('Something went wrong, please try again')
+        }
+    };
+
   return (
     <div className="login-page">
       <div className="login-container">
@@ -19,7 +57,7 @@ export const Login = () => {
         <div className="login-card">
           <h2>Sign In</h2>
 
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="form-group">
               <label htmlFor="username">Username</label>
               <div className="input-with-icon">
@@ -28,6 +66,8 @@ export const Login = () => {
                   id="username"
                   type="text"
                   placeholder="Enter your username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                 />
               </div>
             </div>
@@ -38,10 +78,13 @@ export const Login = () => {
                 id="password"
                 type="password"
                 placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
 
             <button type="submit">Log In</button>
+            {error && <p style={{ color: 'red', marginTop: '0.5rem' }}>{error}</p>}
           </form>
 
           <p className="login-tip">

@@ -7,6 +7,7 @@ import { Login } from './pages/Login/Login';
 import { MembersProgress } from './pages/MembersProgress/MembersProgress';
 import { Error } from './pages/Error';
 import { PublicLayout } from './pages/PublicLayout';
+import { ProtectedRoute } from './routes/ProtectedRoute';
 
 export const router = createBrowserRouter([
      {
@@ -19,32 +20,31 @@ export const router = createBrowserRouter([
       },
     ],
    },
-    {
-        path: '/',
-        element: <AppLayout/>,
-        errorElement: <Error/>,
+    { 
+        element: <ProtectedRoute/>,
         children: [
             {
-                path: '/',
-                element: <Login/>
-            },
-            {
-                path: '/active-book',
-                element: <ActiveBook/>
-            },
-            {
-                path: '/finished-books',
-                element: <FinishedBooks/>
-            },
-            {
-                path: '/admin-panel',
-                element: <AdminPanel/>
-            },
-            {
-                path: '/members-progress',
-                element: <MembersProgress/>
-            },
-            
+                element: <AppLayout/>,
+                errorElement: <Error/>,
+                children: [
+                    {
+                        path: '/active-book',
+                        element: <ActiveBook/>
+                    },
+                    {
+                        path: '/finished-books',
+                        element: <FinishedBooks/>
+                    },
+                    {
+                        path: '/admin-panel',
+                        element: <AdminPanel/>
+                    },
+                    {
+                        path: '/members-progress',
+                        element: <MembersProgress/>
+                    },
+                ]
+            }
         ]
     }
 ]);
