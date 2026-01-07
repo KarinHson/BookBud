@@ -18,22 +18,24 @@ export const Login = () => {
     
         //mocked users for now
         try {
-            const mockUsers = [
-          { id: '1', userName: 'alice', password: '123', isAdmin: false },
-          { id: '2', userName: 'bob', password: '123', isAdmin: true },
-        ];
-    
-        const foundUser = mockUsers.find(
-            (u) => u.userName === username && u.password === password
-        );
-    
-        if (foundUser) {
-            login(foundUser);
-            setError('');
-            navigate('/active-book', { replace: true })
-        } else {
-            setError('Invalid username or password');
-        } 
+            const response = await fetch('http://localhost:5000/api/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ userName: username, password }),
+    })
+     if (!response.ok) {
+      // 401 eller 400 → visa fel
+      const errorData = await response.json();
+      setError(errorData.message || 'Login failed');
+      return;
+    }
+
+    const user = await response.json(); // user-object från backend
+    login(user); // spara i AuthContext
+
+    navigate('/active-book', { replace: true });
     
         } catch(err) {
             setError('Something went wrong, please try again')
