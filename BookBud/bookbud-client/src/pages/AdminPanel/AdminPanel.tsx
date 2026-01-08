@@ -1,6 +1,6 @@
 import './AdminPanel.scss';
 import { useState } from 'react';
-import { Plus, Upload, BookOpen } from 'lucide-react';
+import { Plus, Upload, BookOpen, Info } from 'lucide-react';
 import type { Book } from '../../models/book';
 
 interface AdminPanelProps {
@@ -77,6 +77,14 @@ export const AdminPanel = ({ activeBook }: AdminPanelProps) => {
               <label htmlFor="coverImage">Book Cover Image URL *</label>
               <Upload className="icon" />
               <input id="coverImage" type="url" placeholder="https://example.com/book-cover.jpg" />
+            </div>
+
+            <div className="form-group">
+                <label htmlFor="meetingInfo">Meeting Info, optional</label>
+                <input
+                    id="meetingInfo"
+                    type="text"
+                />
             </div>
 
             <div className="form-group checkbox-group">
