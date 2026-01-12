@@ -1,6 +1,7 @@
 import { Book, Users, Archive, Settings, LogOut } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './Header.scss';
+import { useAuth } from '../../context/AuthContext';
 
 interface HeaderProps {
   isAdmin: boolean;
@@ -9,6 +10,7 @@ interface HeaderProps {
 export const Header = ({ isAdmin }: HeaderProps) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { logout } = useAuth();
 
   const navItems = [
     { id: 'user-dashboard', label: 'Active Book', path: '/active-book', icon: Book },
@@ -66,7 +68,10 @@ export const Header = ({ isAdmin }: HeaderProps) => {
           className="logout-button"
           aria-label="Log out"
           title="Log out"
-          // onClick={() => {}}
+          onClick={() => {
+            logout();
+            navigate('/');
+          }}
         >
           <LogOut />
           <span className="logout-text">Log out</span>

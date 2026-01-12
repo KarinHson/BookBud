@@ -21,30 +21,41 @@ export const router = createBrowserRouter([
     ],
    },
     { 
-        element: <ProtectedRoute/>,
+        element: <AppLayout/>,
+        errorElement: <Error/>,
         children: [
             {
-                element: <AppLayout/>,
-                errorElement: <Error/>,
-                children: [
-                    {
-                        path: '/active-book',
-                        element: <ActiveBook/>
-                    },
-                    {
-                        path: '/finished-books',
-                        element: <FinishedBooks/>
-                    },
-                    {
-                        path: '/admin-panel',
-                        element: <AdminPanel/>
-                    },
-                    {
-                        path: '/members-progress',
-                        element: <MembersProgress/>
-                    },
-                ]
-            }
-        ]
+                path: '/active-book',
+                element: (
+                    <ProtectedRoute>
+                        <ActiveBook/>
+                    </ProtectedRoute>
+                )
+            },
+            {
+                path: '/finished-books',
+                element: (
+                    <ProtectedRoute>
+                        <FinishedBooks/>
+                    </ProtectedRoute>
+                )
+            },
+            {
+                path: '/admin-panel',
+                element: (
+                    <ProtectedRoute adminOnly>
+                        <AdminPanel/>
+                    </ProtectedRoute>
+                )
+            },
+            {
+                path: '/members-progress',
+                element: (
+                    <ProtectedRoute>
+                        <MembersProgress/>
+                    </ProtectedRoute>
+                )
+            },
+        ]    
     }
 ]);

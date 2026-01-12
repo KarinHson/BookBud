@@ -2,6 +2,7 @@ import './ActiveBookCard.scss';
 import { useEffect, useState } from 'react';
 import { Book } from '../../models/book';
 import { ProgressBar } from '../ProgressBar/ProgressBar';
+import { booksService } from '../../services/booksService';
 
 export const ActiveBookCard = () => {
 
@@ -10,24 +11,10 @@ export const ActiveBookCard = () => {
 
   
   useEffect(() => {
-    const fetchActiveBook = async () => {
-      try {
-        const response = await fetch('http://localhost:5000/api/books/active');
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch active book');
-        }
-
-        const data: Book = await response.json();
-        setActiveBook(data);
-      } catch (error) {
-        console.error('Error fetching active book:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchActiveBook();
+    booksService.getActiveBook()
+    .then(setActiveBook)
+    .catch(err => console.error('Error fetching active book:', err))
+    .finally(() => setIsLoading(false));
   }, []);
 
   if (isLoading) {
@@ -40,7 +27,7 @@ export const ActiveBookCard = () => {
 
 
   const totalPages = activeBook.pageCount;
-  const pagesRead = 75;
+  const pagesRead = 75; //mock for now
   const progressPercent = Math.floor((pagesRead / totalPages) * 100);
 
   return (

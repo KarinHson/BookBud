@@ -3,6 +3,7 @@ import { Book, User } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { authService } from '../../services/authSerivce';
 
 export const Login = () => {
 
@@ -15,30 +16,14 @@ export const Login = () => {
     
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-    
-        //mocked users for now
+        setError('');
+
         try {
-            const response = await fetch('http://localhost:5000/api/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ userName: username, password }),
-    })
-     if (!response.ok) {
-      // 401 eller 400 → visa fel
-      const errorData = await response.json();
-      setError(errorData.message || 'Login failed');
-      return;
-    }
-
-    const user = await response.json(); // user-object från backend
-    login(user); // spara i AuthContext
-
-    navigate('/active-book', { replace: true });
-    
-        } catch(err) {
-            setError('Something went wrong, please try again')
+          const user = await authService.login(username, password);
+          login(user)
+          navigate('/active-book', { replace: true });
+        } catch (err: any) {
+          setError(err.message || 'Something went wrong, please try again');
         }
     };
 
