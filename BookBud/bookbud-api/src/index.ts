@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import booksRouter from './routes/books';
 import cors from 'cors'; 
 import authRouter from './routes/auth';
+import progressRouter from './routes/progress';
 
 dotenv.config(); // reads the .env file
 
@@ -13,6 +14,7 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 app.use('/api/auth', authRouter);
+app.use('/api/progress', progressRouter)
 
 const mongoUrl = process.env.MONGODB_URL;
 

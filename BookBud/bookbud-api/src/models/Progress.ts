@@ -9,7 +9,7 @@ export interface IProgress extends Document {
   isFinished: boolean;
 }
 
-const ProgressSchema = new Schema(
+const ProgressSchema = new Schema<IProgress>(
     {
     userId: {
         type: Schema.Types.ObjectId,
