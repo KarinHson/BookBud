@@ -52,7 +52,7 @@ export const ActiveBookCard = () => {
     <div className="book-card">
       <div className="column-a">
         <img
-          src={activeBook.coverUrl}
+          src={activeBook.coverUrl || '/images/default-book-cover.png'} //TODO: add fallback img
           alt={activeBook.title}
         />
       </div>
