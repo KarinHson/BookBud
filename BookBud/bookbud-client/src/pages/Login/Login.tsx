@@ -3,7 +3,7 @@ import { Book, User } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { authService } from '../../services/authSerivce';
+import { authService } from '../../services/authService';
 
 export const Login = () => {
 

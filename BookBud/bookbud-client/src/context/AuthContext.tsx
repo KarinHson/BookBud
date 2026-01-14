@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { authService } from "../services/authSerivce";
+import { authService } from "../services/authService";
 
 //represents a logged in user from the API
 interface User {
