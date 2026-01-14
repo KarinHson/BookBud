@@ -32,3 +32,31 @@ export const getInactiveBooks = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Server error' })
     }
 };
+
+export const createBook = async (req: Request, res: Response) => {
+  try {
+    const { title, author, pageCount, year, coverUrl, meetingInfo, isActive } = req.body;
+
+    if (!title || !author || !pageCount || !year || !coverUrl) {
+      return res.status(400).json({ message: 'Missing required fields '});
+    }
+
+    
+      const newBook = new Book({
+        title,
+        author,
+        pageCount,
+        year,
+        coverUrl: coverUrl || '',
+        meetingInfo: meetingInfo || '',
+        isActive: !!isActive,
+      });
+    
+      await newBook.save();
+      res.status(201).json(newBook);
+  } catch (error) {
+     console.error('Error creating book:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+
+}
