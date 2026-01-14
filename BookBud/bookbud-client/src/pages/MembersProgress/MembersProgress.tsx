@@ -4,6 +4,7 @@ import './MembersProgress.scss';
 import { progressService } from '../../services/progressService';
 import { useState, useEffect } from 'react';
 import { Book } from '../../models/book';
+import { calcProgressPercent } from '../../helpers/calcProgressPercent';
 
 interface Member {
   userId: string;
@@ -64,9 +65,9 @@ export const MembersProgress = () => {
       ) : (
         <div className="members-list">
           {sortedMembers.map((member, index) => {
-            const progressPercentage = Math.min(
-              (member.pagesRead / activeBook.pageCount) * 100,
-              100
+            const progressPercentage = calcProgressPercent(
+              member.pagesRead,
+              activeBook.pageCount
             );
             const isTopThree = index < 3;
 
@@ -91,7 +92,7 @@ export const MembersProgress = () => {
                       style={{ width: `${progressPercentage}%` }}
                     />
                     <span className="progress-percentage">
-                      {Math.round(progressPercentage)}%
+                      {progressPercentage}%
                     </span>
                   </div>
 
