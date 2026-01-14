@@ -4,31 +4,36 @@ import { Progress } from '../models/Progress';
 
 export const getProgressForActiveBook = async (req: Request, res: Response) => {
   try {
-    const activeBook = await Book.findOne({ isActive: true });
-    if (!activeBook) {
-      return res.status(404).json({ message: 'No active book found' });
-    }
+    const activeBook = await Book.findOne({ isActive: true }).lean();
+    if (!activeBook) return res.status(404).json({ message: 'No active book found' });
 
-    const progress = await Progress.find({ bookId: activeBook._id })
-      .populate('userId', 'userName');
+    const bookObjectId = activeBook._id;
+    const bookIdString = bookObjectId.toString();
 
-    const members = progress.map((entry) => ({
-      userId: entry.userId._id,
-      name: (entry.userId as any).userName,
-      pagesRead: entry.pagesRead,
-      isFinished: entry.isFinished,
-    }));
+    const progressEntries = await Progress.find({ bookId: bookObjectId })
+      .populate('userId', 'userName')
+      .lean();
+
+    const members = progressEntries.map((entry: any) => {
+      const user = entry.userId;
+      return {
+        userId: user?._id?.toString() ?? entry.userId.toString(),
+        name: user?.userName ?? 'Unknown',
+        pagesRead: entry.pagesRead,
+        isFinished: entry.isFinished,
+      };
+    });
 
     res.json({
       book: {
-        _id: activeBook._id,
+        _id: bookObjectId,
         title: activeBook.title,
         pageCount: activeBook.pageCount,
       },
       members,
     });
   } catch (error) {
-    console.error(error);
+    console.error('getProgressForActiveBook error:', error);
     res.status(500).json({ message: 'Server error' });
   }
 };

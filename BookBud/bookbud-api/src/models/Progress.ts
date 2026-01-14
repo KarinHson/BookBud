@@ -36,4 +36,8 @@ const ProgressSchema = new Schema<IProgress>(
     }
 )
 
-export const Progress = mongoose.model<IProgress>('Progress', ProgressSchema);
+export const Progress = mongoose.model<IProgress>(
+  'Progress',
+  ProgressSchema,
+  'progress' //mongoose assumes the collection name is "progresses" based on the name of the model, that's why we need to tell mongoose the collection name is "progress"
+);
