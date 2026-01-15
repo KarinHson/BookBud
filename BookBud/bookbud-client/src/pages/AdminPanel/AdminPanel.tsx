@@ -1,7 +1,8 @@
 import './AdminPanel.scss';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Plus, Upload, BookOpen, Info } from 'lucide-react';
 import type { Book } from '../../models/book';
+import { checkIfActiveBookExists } from '../../helpers/bookHelpers';
 
 interface AdminPanelProps {
   activeBook?: Book | null;
@@ -9,6 +10,16 @@ interface AdminPanelProps {
 
 export const AdminPanel = ({ activeBook }: AdminPanelProps) => {
   const [showForm, setShowForm] = useState(false);
+  const [activeBookExists, setActiveBookExists] = useState(false);
+
+  useEffect(() => {
+  const checkActive = async () => {
+    const exists = await checkIfActiveBookExists();
+    setActiveBookExists(exists);
+  };
+
+  checkActive();
+}, []);
 
   return (
     <div className="admin-panel">
@@ -88,8 +99,11 @@ export const AdminPanel = ({ activeBook }: AdminPanelProps) => {
             </div>
 
             <div className="form-group checkbox-group">
-              <input id="isFinished" type="checkbox" />
-              <label htmlFor="isFinished">Mark as Finished</label>
+              <input id="isFinished" type="checkbox" disabled={activeBookExists} />
+              <label htmlFor="isFinished">Current book</label>
+              {activeBookExists && (
+                <p className='info-text'>Another book is already set as current book. Only one book can be active at a time.</p>
+              )}
             </div>
 
             <div className="form-actions">
