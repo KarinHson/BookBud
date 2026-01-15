@@ -25,5 +25,29 @@ export const booksService = {
       throw new Error('Failed to fetch all books');
     }
     return response.json();
-  }
+  },
+
+  createBook: async (bookData: {
+     title: string;
+    author: string;
+    pageCount: number;
+    year: number;
+    coverUrl?: string;
+    meetingInfo?: string;
+    isActive?: boolean;
+  }): Promise<Book> => {
+    const response = await fetch(`${API_BASE}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(bookData),
+    });
+        if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to create book');
+    }
+
+    return response.json();
+  },
 };

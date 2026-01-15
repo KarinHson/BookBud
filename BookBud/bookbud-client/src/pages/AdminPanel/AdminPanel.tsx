@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { Plus, Upload, BookOpen, Info } from 'lucide-react';
 import type { Book } from '../../models/book';
 import { checkIfActiveBookExists } from '../../helpers/bookHelpers';
+import { booksService } from '../../services/booksService';
 
 interface AdminPanelProps {
   activeBook?: Book | null;
@@ -11,6 +12,13 @@ interface AdminPanelProps {
 export const AdminPanel = ({ activeBook }: AdminPanelProps) => {
   const [showForm, setShowForm] = useState(false);
   const [activeBookExists, setActiveBookExists] = useState(false);
+  const [title, setTitle] = useState('');
+  const [author, setAuthor] = useState('');
+  const [pageCount, setPageCount] = useState<number | ''>('');
+  const [year, setYear] = useState<number | ''>('');
+  const [coverUrl, setCoverUrl] = useState('');
+  const [meetingInfo, setMeetingInfo] = useState('');
+  const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
   const checkActive = async () => {
@@ -20,6 +28,41 @@ export const AdminPanel = ({ activeBook }: AdminPanelProps) => {
 
   checkActive();
 }, []);
+
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+
+  const newBook = {
+    title,
+    author,
+    pageCount: Number(pageCount),
+    year: Number(year),
+    coverUrl,
+    meetingInfo,
+    isActive
+  };
+  try {
+    const createdBook = await booksService.createBook(newBook);
+
+    //clear the form 
+    setTitle('');
+    setAuthor('');
+    setPageCount('');
+    setYear('');
+    setCoverUrl('');
+    setMeetingInfo('');
+    setIsActive(false);
+    setShowForm(false);
+
+    //if the newly created book is set to isActive: true, update activeBookExists
+    if (createdBook.isActive) {
+      setActiveBookExists(true);
+    }
+  } catch (error: any) {
+    console.error('Failed to create book:', error.message);
+    alert(error.message);
+  }
+}
 
   return (
     <div className="admin-panel">
@@ -61,46 +104,57 @@ export const AdminPanel = ({ activeBook }: AdminPanelProps) => {
         <section className="add-book-form">
           <h2>Add New Book</h2>
 
-          <form className="form">
+          <form className="form" onSubmit={handleSubmit}>
             <div className="form-group">
               <label htmlFor="title">Book Title *</label>
-              <input id="title" type="text" placeholder="Enter book title" />
+              <input id="title" type="text" placeholder="Enter book title" value={title} 
+              onChange={(e) => setTitle(e.target.value)}/>
             </div>
 
             <div className="form-group">
               <label htmlFor="author">Author *</label>
-              <input id="author" type="text" placeholder="Enter author name" />
+              <input id="author" type="text" placeholder="Enter author name" value={author}
+              onChange={(e) => setAuthor(e.target.value)} />
             </div>
 
             <div className="form-row">
               <div className="form-group">
                 <label htmlFor="pages">Number of Pages *</label>
-                <input id="pages" type="number" placeholder="304" />
+                <input id="pages" type="number" min={1} value={pageCount}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setPageCount(value === '' ? '' : Number(value))
+                }} />
               </div>
 
               <div className="form-group">
                 <label htmlFor="year">Publication Year *</label>
-                <input id="year" type="number" placeholder="2020" />
+                <input id="year" type="number" placeholder="2020" min={0} value={year}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setYear(value === '' ? '' : Number(value));
+                }}/>
               </div>
             </div>
 
             <div className="form-group cover-input">
               <label htmlFor="coverImage">Book Cover Image URL *</label>
               <Upload className="icon" />
-              <input id="coverImage" type="url" placeholder="https://example.com/book-cover.jpg" />
+              <input id="coverImage" type="url" value={coverUrl} placeholder="https://example.com/book-cover.jpg"
+              onChange={(e) => setCoverUrl(e.target.value)} />
             </div>
 
             <div className="form-group">
                 <label htmlFor="meetingInfo">Meeting Info, optional</label>
-                <input
-                    id="meetingInfo"
-                    type="text"
+                <input id="meetingInfo" type="text" value={meetingInfo}
+                onChange={(e) => setMeetingInfo(e.target.value)}
                 />
             </div>
 
             <div className="form-group checkbox-group">
-              <input id="isFinished" type="checkbox" disabled={activeBookExists} />
-              <label htmlFor="isFinished">Current book</label>
+              <input id="isActive" type="checkbox" disabled={activeBookExists} checked={isActive}
+              onChange={(e) => setIsActive(e.target.checked)}/>
+              <label htmlFor="isActive">Current book</label>
               {activeBookExists && (
                 <p className='info-text'>Another book is already set as current book. Only one book can be active at a time.</p>
               )}
