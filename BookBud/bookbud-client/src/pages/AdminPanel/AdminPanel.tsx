@@ -6,6 +6,7 @@ import { checkIfActiveBookExists } from '../../helpers/bookHelpers';
 import { booksService } from '../../services/booksService';
 import { AdminActiveBookCard } from '../../components/AdminActiveBookCard/AdminActiveBookCard';
 import { AdminBookList } from '../../components/AdminBookList/AdminBookList';
+import { BookForm } from '../../components/BookForm/BookForm';
 
 interface AdminPanelProps {
   activeBook?: Book | null;
@@ -55,40 +56,24 @@ export const AdminPanel = ({ activeBook }: AdminPanelProps) => {
     fetchActiveBook();
 }, []);
 
-const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
-
-  const newBook = {
-    title,
-    author,
-    pageCount: Number(pageCount),
-    year: Number(year),
-    coverUrl,
-    meetingInfo,
-    isActive
-  };
+const handleSubmit = async (bookData: Omit<Book, '_id'>) => {
   try {
-    const createdBook = await booksService.createBook(newBook);
+    const createdBook = await booksService.createBook(bookData);
 
-    //clear the form 
-    setTitle('');
-    setAuthor('');
-    setPageCount('');
-    setYear('');
-    setCoverUrl('');
-    setMeetingInfo('');
-    setIsActive(false);
+    setAllBooks(prev => [...prev, createdBook]);
+
+    // clear state
     setShowForm(false);
 
-    //if the newly created book is set to isActive: true, update activeBookExists
     if (createdBook.isActive) {
+      setActiveBookState(createdBook);
       setActiveBookExists(true);
     }
   } catch (error: any) {
     console.error('Failed to create book:', error.message);
     alert(error.message);
   }
-}
+};
 
 const handleMarkAsFinished = async (book: Book) => {
   const confirmed = window.confirm(`Are you sure you want to mark "${book.title}" as finished? This will move the book to Finished Books`);
@@ -102,6 +87,25 @@ const handleMarkAsFinished = async (book: Book) => {
   }
 }
 
+const handleDeleteBook = async (book: Book) => {
+  const confirmed = window.confirm(`Are you sure you want to delete "${book.title}"? This cannot be undone.`);
+  if (!confirmed) return;
+
+  try {
+    await booksService.deleteBook(book._id);
+    setAllBooks(allBooks.filter(b => b._id !== book._id));
+
+    //if the deleted book was the active book, remove it from the top section
+      if (activeBookState?._id === book._id) {
+      setActiveBookState(null);
+      setActiveBookExists(false);
+    }
+  } catch (err) {
+    console.error('Failed to delete book:', err);
+    alert('Could not delete the book. Check console for details.');
+  }
+};
+
   return (
     <div className="admin-panel">
       <header className="admin-header">
@@ -113,7 +117,7 @@ const handleMarkAsFinished = async (book: Book) => {
         <h2>Current Active Book</h2>
 
         {activeBookState ? (
-         <AdminActiveBookCard book={activeBookState} onMarkAsFinished={(book) => handleMarkAsFinished(book)}/>
+        <AdminActiveBookCard book={activeBookState} onMarkAsFinished={(book) => handleMarkAsFinished(book)}/>
         ) : (
           <div className="no-book">
             <BookOpen className="icon" />
@@ -131,77 +135,20 @@ const handleMarkAsFinished = async (book: Book) => {
 
       {showForm && (
         <section className="add-book-form">
-          <h2>Add New Book</h2>
-
-          <form className="form" onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="title">Book Title *</label>
-              <input id="title" type="text" placeholder="Enter book title" value={title} 
-              onChange={(e) => setTitle(e.target.value)}/>
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="author">Author *</label>
-              <input id="author" type="text" placeholder="Enter author name" value={author}
-              onChange={(e) => setAuthor(e.target.value)} />
-            </div>
-
-            <div className="form-row">
-              <div className="form-group">
-                <label htmlFor="pages">Number of Pages *</label>
-                <input id="pages" type="number" min={1} value={pageCount}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  setPageCount(value === '' ? '' : Number(value))
-                }} />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="year">Publication Year *</label>
-                <input id="year" type="number" placeholder="2020" min={0} value={year}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  setYear(value === '' ? '' : Number(value));
-                }}/>
-              </div>
-            </div>
-
-            <div className="form-group cover-input">
-              <label htmlFor="coverImage">Book Cover Image URL *</label>
-              <Upload className="icon" />
-              <input id="coverImage" type="url" value={coverUrl} placeholder="https://example.com/book-cover.jpg"
-              onChange={(e) => setCoverUrl(e.target.value)} />
-            </div>
-
-            <div className="form-group">
-                <label htmlFor="meetingInfo">Meeting Info, optional</label>
-                <input id="meetingInfo" type="text" value={meetingInfo}
-                onChange={(e) => setMeetingInfo(e.target.value)}
-                />
-            </div>
-
-            <div className="form-group checkbox-group">
-              <input id="isActive" type="checkbox" disabled={activeBookExists} checked={isActive}
-              onChange={(e) => setIsActive(e.target.checked)}/>
-              <label htmlFor="isActive">Current book</label>
-              {activeBookExists && (
-                <p className='info-text'>Another book is already set as current book. Only one book can be active at a time.</p>
-              )}
-            </div>
-
-            <div className="form-actions">
-              <button type="button" className="cancel-btn" onClick={() => setShowForm(false)}>Cancel</button>
-              <button type="submit" className="save-btn">Save Book</button>
-            </div>
-          </form>
-        </section>
+        <h2>Add New Book</h2>
+        <BookForm
+          onSubmit={handleSubmit}
+          onCancel={() => setShowForm(false)}
+          activeBookExists={activeBookExists}
+    />
+  </section>
       )}
       <section className="all-books">
         <h2>All Books</h2>
         <AdminBookList
           books={allBooks}
           onEdit={(book) => console.log('Edit', book)}
-          onDelete={(book) => console.log('Delete', book)}
+          onDelete={handleDeleteBook}
         />
       </section>
     </div>
