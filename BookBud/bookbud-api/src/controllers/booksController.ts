@@ -38,7 +38,7 @@ export const createBook = async (req: Request, res: Response) => {
   try {
     const { title, author, pageCount, year, coverUrl, meetingInfo, isActive } = req.body;
 
-    if (!title || !author || !pageCount || !year || !coverUrl) {
+    if (!title || !author || !pageCount || !year) {
       return res.status(400).json({ message: 'Missing required fields '});
     }
 
