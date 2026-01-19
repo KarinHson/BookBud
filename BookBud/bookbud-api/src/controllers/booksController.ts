@@ -60,3 +60,19 @@ export const createBook = async (req: Request, res: Response) => {
   }
 
 }
+
+export const updateBook = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const updateData = req.body;
+
+    const updatedBook = await Book.findByIdAndUpdate(id, updateData, { new: true });
+
+    if (!updatedBook) return res.status(404).json({ message: 'Book not found' });
+
+    res.json(updatedBook);
+  } catch (err) {
+    console.error('Error updating book:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+};

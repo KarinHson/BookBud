@@ -50,4 +50,19 @@ export const booksService = {
 
     return response.json();
   },
+
+  updateBook: async (id: string, updateData: Partial<Book>): Promise<Book> => {
+  const response = await fetch(`${API_BASE}/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(updateData),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Failed to update book');
+  }
+
+  return response.json();
+},
 };
