@@ -5,6 +5,7 @@ import type { Book } from '../../models/book';
 import { checkIfActiveBookExists } from '../../helpers/bookHelpers';
 import { booksService } from '../../services/booksService';
 import { AdminActiveBookCard } from '../../components/AdminActiveBookCard/AdminActiveBookCard';
+import { AdminBookList } from '../../components/AdminBookList/AdminBookList';
 
 interface AdminPanelProps {
   activeBook?: Book | null;
@@ -15,6 +16,7 @@ export const AdminPanel = ({ activeBook }: AdminPanelProps) => {
   const [activeBookExists, setActiveBookExists] = useState(false);
 
   const [activeBookState, setActiveBookState] = useState<Book | null>(null);
+  const [allBooks, setAllBooks] = useState<Book[]>([]);
 
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
@@ -24,6 +26,18 @@ export const AdminPanel = ({ activeBook }: AdminPanelProps) => {
   const [meetingInfo, setMeetingInfo] = useState('');
   const [isActive, setIsActive] = useState(false);
 
+  useEffect(() => {
+  const fetchBooks = async () => {
+    try {
+      const books = await booksService.getAllBooks();
+      setAllBooks(books);
+    } catch (err) {
+      console.error('Error fetching all books:', err);
+    }
+  };
+
+  fetchBooks();
+}, []);
 
   useEffect(() => {
     const fetchActiveBook = async () => {
@@ -182,6 +196,14 @@ const handleMarkAsFinished = async (book: Book) => {
           </form>
         </section>
       )}
+      <section className="all-books">
+        <h2>All Books</h2>
+        <AdminBookList
+          books={allBooks}
+          onEdit={(book) => console.log('Edit', book)}
+          onDelete={(book) => console.log('Delete', book)}
+        />
+      </section>
     </div>
   );
 };
