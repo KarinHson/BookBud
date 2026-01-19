@@ -4,6 +4,7 @@ import { Plus, Upload, BookOpen, Info } from 'lucide-react';
 import type { Book } from '../../models/book';
 import { checkIfActiveBookExists } from '../../helpers/bookHelpers';
 import { booksService } from '../../services/booksService';
+import { AdminActiveBookCard } from '../../components/AdminActiveBookCard/AdminActiveBookCard';
 
 interface AdminPanelProps {
   activeBook?: Book | null;
@@ -12,6 +13,9 @@ interface AdminPanelProps {
 export const AdminPanel = ({ activeBook }: AdminPanelProps) => {
   const [showForm, setShowForm] = useState(false);
   const [activeBookExists, setActiveBookExists] = useState(false);
+
+  const [activeBookState, setActiveBookState] = useState<Book | null>(null);
+
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [pageCount, setPageCount] = useState<number | ''>('');
@@ -20,13 +24,21 @@ export const AdminPanel = ({ activeBook }: AdminPanelProps) => {
   const [meetingInfo, setMeetingInfo] = useState('');
   const [isActive, setIsActive] = useState(false);
 
-  useEffect(() => {
-  const checkActive = async () => {
-    const exists = await checkIfActiveBookExists();
-    setActiveBookExists(exists);
-  };
 
-  checkActive();
+  useEffect(() => {
+    const fetchActiveBook = async () => {
+      try {
+        const active = await booksService.getActiveBook();
+        setActiveBookState(active);
+        setActiveBookExists(!!active) //true if active book exists
+      } catch (err) {
+        console.error('Error fetching active book:', err);
+        setActiveBookState(null);
+        setActiveBookExists(false);
+      }
+    };
+
+    fetchActiveBook();
 }, []);
 
 const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -64,6 +76,18 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   }
 }
 
+const handleMarkAsFinished = async (book: Book) => {
+  const confirmed = window.confirm(`Are you sure you want to mark "${book.title}" as finished? This will move the book to Finished Books`);
+  if (!confirmed) return; // the user pressed cancel
+  try {
+    await booksService.updateBook(book._id, { isActive: false });
+    setActiveBookState(null);
+    setActiveBookExists(false);
+  } catch (err) {
+    console.error('Failed to mark book as finished', err);
+  }
+}
+
   return (
     <div className="admin-panel">
       <header className="admin-header">
@@ -74,17 +98,8 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       <section className="current-book">
         <h2>Current Active Book</h2>
 
-        {activeBook ? (
-          <div className="book-details">
-            <img src={activeBook.coverUrl} alt={activeBook.title} />
-            <div className="book-info">
-              <h3>{activeBook.title}</h3>
-              <p>by {activeBook.author}</p>
-              <p>{activeBook.pageCount} pages</p>
-              <p>Published: {activeBook.year}</p>
-              <p>Status: {activeBook.isActive ? '✓ Finished' : '📖 In Progress'}</p>
-            </div>
-          </div>
+        {activeBookState ? (
+         <AdminActiveBookCard book={activeBookState} onMarkAsFinished={(book) => handleMarkAsFinished(book)}/>
         ) : (
           <div className="no-book">
             <BookOpen className="icon" />
