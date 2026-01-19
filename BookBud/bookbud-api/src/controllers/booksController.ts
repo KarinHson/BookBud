@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { Book } from '../models/Book';
+import { runInNewContext } from 'node:vm';
 
 export const getAllBooks = async (req: Request, res: Response) => {
   try {
@@ -73,6 +74,21 @@ export const updateBook = async (req: Request, res: Response) => {
     res.json(updatedBook);
   } catch (err) {
     console.error('Error updating book:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+export const deleteBook = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const deletedBook = await Book.findByIdAndDelete(id);
+
+    if (!deletedBook) {
+      return res.status(404).json({ message: 'Book not found' });
+    }
+    res.json({ message: 'Book deleted successfully' });
+  } catch (err) {
+    console.error('Error deleting book:', err);
     res.status(500).json({ message: 'Server error' });
   }
 };

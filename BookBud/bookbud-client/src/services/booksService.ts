@@ -64,5 +64,18 @@ export const booksService = {
   }
 
   return response.json();
-},
+  },
+
+  deleteBook: async (id: string): Promise<{ message: string }> => {
+  const response = await fetch(`${API_BASE}/${id}`, {
+    method: 'DELETE',
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Failed to delete book');
+  }
+
+  return response.json();
+  },
 };
