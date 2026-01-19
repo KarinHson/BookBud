@@ -2,32 +2,38 @@ import './ActiveBookCard.scss';
 import { useEffect, useState } from 'react';
 import { Book } from '../../models/book';
 import { ProgressBar } from '../ProgressBar/ProgressBar';
+import { booksService } from '../../services/booksService';
+import { progressService } from '../../services/progressService';
+import { authService } from '../../services/authService';
+import { calcProgressPercent } from '../../helpers/calcProgressPercent';
 
 export const ActiveBookCard = () => {
 
   const [activeBook, setActiveBook] = useState<Book | null>(null);
+  const [pagesRead, setPagesRead] = useState(0)
   const [isLoading, setIsLoading] = useState(true);
 
   
   useEffect(() => {
-    const fetchActiveBook = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/books/active');
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch active book');
-        }
-
-        const data: Book = await response.json();
-        setActiveBook(data);
+        const activeBook = await booksService.getActiveBook();
+        setActiveBook(activeBook);
+  
+        const progressData = await progressService.getProgressForActiveBook();
+  
+        //find the logged in users progress for the active book
+        const user = authService.getCurrentUser();
+        const userId = user?.id;
+        const usersProgress = progressData.members.find((member) => member.userId === userId);
+        setPagesRead(usersProgress?.pagesRead ?? 0);
       } catch (error) {
-        console.error('Error fetching active book:', error);
+      console.error('Error fetching active book or progress:', error);
       } finally {
         setIsLoading(false);
       }
     };
-
-    fetchActiveBook();
+    fetchData();
   }, []);
 
   if (isLoading) {
@@ -40,14 +46,13 @@ export const ActiveBookCard = () => {
 
 
   const totalPages = activeBook.pageCount;
-  const pagesRead = 75;
-  const progressPercent = Math.floor((pagesRead / totalPages) * 100);
+  const progressPercent = calcProgressPercent(pagesRead, totalPages)
 
   return (
     <div className="book-card">
       <div className="column-a">
         <img
-          src={activeBook.coverUrl}
+          src={activeBook.coverUrl || '/images/default-book-cover.png'} //TODO: add fallback img
           alt={activeBook.title}
         />
       </div>

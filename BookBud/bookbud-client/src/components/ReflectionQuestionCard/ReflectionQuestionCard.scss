@@ -1,0 +1,42 @@
+.reflection-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  background: linear-gradient(to right, #e0c3fc, #fbc2eb);
+  border-radius: 2rem;
+  padding: 2rem;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+
+  &__icon {
+    width: 3rem; // w-12
+    height: 3rem;
+    background-color: #c084fc;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+      color: #6b21a8;
+    }
+  }
+
+  &__content {
+    flex: 1;
+  }
+
+  &__title {
+    color: #5b21b6;
+    margin-bottom: 0.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  &__question {
+    color: #7c3aed;
+    font-size: 1rem;
+  }
+}

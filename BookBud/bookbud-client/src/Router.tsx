@@ -1,39 +1,61 @@
 import { createBrowserRouter } from 'react-router';
-import { Layout } from './pages/Layout';
+import { AppLayout } from './pages/AppLayout';
 import { ActiveBook } from './pages/ActiveBook/ActiveBook';
-import { AdminPage } from './pages/AdminPage/AdminPage';
+import { AdminPanel } from './pages/AdminPanel/AdminPanel';
 import { FinishedBooks } from './pages/FinishedBooks/FinishedBooks';
 import { Login } from './pages/Login/Login';
 import { MembersProgress } from './pages/MembersProgress/MembersProgress';
 import { Error } from './pages/Error';
+import { PublicLayout } from './pages/PublicLayout';
+import { ProtectedRoute } from './routes/ProtectedRoute';
 
 export const router = createBrowserRouter([
-    {
+     {
+    element: <PublicLayout />,
+    errorElement: <Error />,
+    children: [
+      {
         path: '/',
-        element: <Layout/>,
+        element: <Login />,
+      },
+    ],
+   },
+    { 
+        element: <AppLayout/>,
         errorElement: <Error/>,
         children: [
             {
-                path: '/',
-                element: <Login/>
-            },
-            {
                 path: '/active-book',
-                element: <ActiveBook/>
+                element: (
+                    <ProtectedRoute>
+                        <ActiveBook/>
+                    </ProtectedRoute>
+                )
             },
             {
                 path: '/finished-books',
-                element: <FinishedBooks/>
+                element: (
+                    <ProtectedRoute>
+                        <FinishedBooks/>
+                    </ProtectedRoute>
+                )
             },
             {
-                path: '/admin-page',
-                element: <AdminPage/>
+                path: '/admin-panel',
+                element: (
+                    <ProtectedRoute adminOnly>
+                        <AdminPanel/>
+                    </ProtectedRoute>
+                )
             },
             {
                 path: '/members-progress',
-                element: <MembersProgress/>
+                element: (
+                    <ProtectedRoute>
+                        <MembersProgress/>
+                    </ProtectedRoute>
+                )
             },
-            
-        ]
+        ]    
     }
 ]);

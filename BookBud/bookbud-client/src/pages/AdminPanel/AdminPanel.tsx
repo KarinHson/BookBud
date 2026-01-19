@@ -1,0 +1,156 @@
+import './AdminPanel.scss';
+import { useState, useEffect } from 'react';
+import { Plus, Upload, BookOpen, Info } from 'lucide-react';
+import type { Book } from '../../models/book';
+import { checkIfActiveBookExists } from '../../helpers/bookHelpers';
+import { booksService } from '../../services/booksService';
+import { AdminActiveBookCard } from '../../components/AdminActiveBookCard/AdminActiveBookCard';
+import { AdminBookList } from '../../components/AdminBookList/AdminBookList';
+import { BookForm } from '../../components/BookForm/BookForm';
+
+interface AdminPanelProps {
+  activeBook?: Book | null;
+}
+
+export const AdminPanel = ({ activeBook }: AdminPanelProps) => {
+  const [showForm, setShowForm] = useState(false);
+  const [activeBookExists, setActiveBookExists] = useState(false);
+
+  const [activeBookState, setActiveBookState] = useState<Book | null>(null);
+  const [allBooks, setAllBooks] = useState<Book[]>([]);
+
+  const [title, setTitle] = useState('');
+  const [author, setAuthor] = useState('');
+  const [pageCount, setPageCount] = useState<number | ''>('');
+  const [year, setYear] = useState<number | ''>('');
+  const [coverUrl, setCoverUrl] = useState('');
+  const [meetingInfo, setMeetingInfo] = useState('');
+  const [isActive, setIsActive] = useState(false);
+
+  useEffect(() => {
+  const fetchBooks = async () => {
+    try {
+      const books = await booksService.getAllBooks();
+      setAllBooks(books);
+    } catch (err) {
+      console.error('Error fetching all books:', err);
+    }
+  };
+
+  fetchBooks();
+}, []);
+
+  useEffect(() => {
+    const fetchActiveBook = async () => {
+      try {
+        const active = await booksService.getActiveBook();
+        setActiveBookState(active);
+        setActiveBookExists(!!active) //true if active book exists
+      } catch (err) {
+        console.error('Error fetching active book:', err);
+        setActiveBookState(null);
+        setActiveBookExists(false);
+      }
+    };
+
+    fetchActiveBook();
+}, []);
+
+const handleSubmit = async (bookData: Omit<Book, '_id'>) => {
+  try {
+    const createdBook = await booksService.createBook(bookData);
+
+    setAllBooks(prev => [...prev, createdBook]);
+
+    // clear state
+    setShowForm(false);
+
+    if (createdBook.isActive) {
+      setActiveBookState(createdBook);
+      setActiveBookExists(true);
+    }
+  } catch (error: any) {
+    console.error('Failed to create book:', error.message);
+    alert(error.message);
+  }
+};
+
+const handleMarkAsFinished = async (book: Book) => {
+  const confirmed = window.confirm(`Are you sure you want to mark "${book.title}" as finished? This will move the book to Finished Books`);
+  if (!confirmed) return; // the user pressed cancel
+  try {
+    await booksService.updateBook(book._id, { isActive: false });
+    setActiveBookState(null);
+    setActiveBookExists(false);
+  } catch (err) {
+    console.error('Failed to mark book as finished', err);
+  }
+}
+
+const handleDeleteBook = async (book: Book) => {
+  const confirmed = window.confirm(`Are you sure you want to delete "${book.title}"? This cannot be undone.`);
+  if (!confirmed) return;
+
+  try {
+    await booksService.deleteBook(book._id);
+    setAllBooks(allBooks.filter(b => b._id !== book._id));
+
+    //if the deleted book was the active book, remove it from the top section
+      if (activeBookState?._id === book._id) {
+      setActiveBookState(null);
+      setActiveBookExists(false);
+    }
+  } catch (err) {
+    console.error('Failed to delete book:', err);
+    alert('Could not delete the book. Check console for details.');
+  }
+};
+
+  return (
+    <div className="admin-panel">
+      <header className="admin-header">
+        <h1>Admin Panel</h1>
+        <p>Manage your book club&apos;s reading</p>
+      </header>
+
+      <section className="current-book">
+        <h2>Current Active Book</h2>
+
+        {activeBookState ? (
+        <AdminActiveBookCard book={activeBookState} onMarkAsFinished={(book) => handleMarkAsFinished(book)}/>
+        ) : (
+          <div className="no-book">
+            <BookOpen className="icon" />
+            <p>No active book yet. Add one below!</p>
+          </div>
+        )}
+      </section>
+
+      {!showForm && (
+        <button className="add-book-btn" onClick={() => setShowForm(true)}>
+          <Plus className="icon" />
+          Add New Active Book
+        </button>
+      )}
+
+      {showForm && (
+        <section className="add-book-form">
+        <h2>Add New Book</h2>
+        <BookForm
+          onSubmit={handleSubmit}
+          onCancel={() => setShowForm(false)}
+          activeBookExists={activeBookExists}
+    />
+  </section>
+      )}
+      <section className="all-books">
+        <h2>All Books</h2>
+        <AdminBookList
+          books={allBooks}
+          onEdit={(book) => console.log('Edit', book)}
+          onDelete={handleDeleteBook}
+        />
+      </section>
+    </div>
+  );
+};
