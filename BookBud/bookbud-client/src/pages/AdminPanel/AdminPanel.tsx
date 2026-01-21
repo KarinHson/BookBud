@@ -1,5 +1,5 @@
 import './AdminPanel.scss';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Plus, Upload, BookOpen, Info } from 'lucide-react';
 import type { Book } from '../../models/book';
 import { checkIfActiveBookExists } from '../../helpers/bookHelpers';
@@ -19,6 +19,8 @@ export const AdminPanel = ({ activeBook }: AdminPanelProps) => {
   const [activeBookState, setActiveBookState] = useState<Book | null>(null);
   const [allBooks, setAllBooks] = useState<Book[]>([]);
   const [editingBook, setEditingBook] = useState<Book | null>(null);
+
+  const editFormRef = useRef<HTMLDivElement>(null);
 
 
   useEffect(() => {
@@ -49,6 +51,13 @@ export const AdminPanel = ({ activeBook }: AdminPanelProps) => {
 
     fetchActiveBook();
 }, []);
+
+//makes the site scroll up to the Edit form when Edit is pressed on a book
+useEffect(() => {
+  if (editingBook && editFormRef.current) {
+    editFormRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}, [editingBook]);
 
 const handleSubmit = async (bookData: Omit<Book, '_id'>) => {
   try {
@@ -155,18 +164,19 @@ const handleUpdateBook = async (updatedBookData: Omit<Book, '_id'>) => {
 
       {showForm && (
         <section className="add-book-form">
-        <h2>Add New Book</h2>
-        <BookForm
-          onSubmit={handleSubmit}
-          onCancel={() => setShowForm(false)}
-          activeBookExists={activeBookExists}
-          activeBookId={activeBookState?._id}
-        />
+          <div className="book-form-wrapper">
+            <BookForm
+            onSubmit={handleSubmit}
+            onCancel={() => setShowForm(false)}
+            activeBookExists={activeBookExists}
+            activeBookId={activeBookState?._id}
+            />
+          </div>
         </section>
       )}
       {editingBook && (
-        <section className="edit-book-form">
-          <h2>Edit book</h2>
+        <section className="edit-book-form" ref={editFormRef}>
+          <div className="book-form-wrapper">
           <BookForm
           book={editingBook}
           onSubmit={handleUpdateBook}
@@ -174,6 +184,7 @@ const handleUpdateBook = async (updatedBookData: Omit<Book, '_id'>) => {
           activeBookExists={activeBookExists}
           activeBookId={activeBookState?._id}
           />
+          </div>
         </section>
       )}
       <section className="all-books">

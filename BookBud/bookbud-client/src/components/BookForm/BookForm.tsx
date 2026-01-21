@@ -51,6 +51,9 @@ export const BookForm = ({ book, onSubmit, onCancel, activeBookExists, activeBoo
   };
 
   return (
+    <div className="book-form-wrapper">
+        <h2>{book ? 'Edit Book' : 'Add New Book'}</h2>
+
     <form className="form" onSubmit={handleSubmit}>
       <div className="form-group">
         <label htmlFor="title">Book Title *</label>
@@ -105,5 +108,6 @@ export const BookForm = ({ book, onSubmit, onCancel, activeBookExists, activeBoo
         <button type="submit" className="save-btn">Save Book</button>
       </div>
     </form>
+    </div>
   );
 };
