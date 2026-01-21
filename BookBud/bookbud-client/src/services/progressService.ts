@@ -25,6 +25,27 @@ const getProgressForActiveBook = async (): Promise<ProgressForActiveBook> => {
     return response.json();
 }
 
+const updateProgressForActiveBook = async (pagesRead: number, userId: string) => {
+    const response = await fetch(`${API_BASE}/active-book-progress`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+        pagesRead,
+        userId
+})
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to update progress');
+    }
+
+    return response.json();
+}
+
 export const progressService = {
-    getProgressForActiveBook
+    getProgressForActiveBook,
+    updateProgressForActiveBook
 };
