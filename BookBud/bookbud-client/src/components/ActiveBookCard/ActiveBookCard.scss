@@ -1,6 +1,5 @@
 .book-card {
   width: 90%;
-  height: 50vh;
   max-width: 1000px;
   background-color: #fff;
   border-radius: 2rem;
@@ -9,6 +8,7 @@
   display: flex;
   gap: 2rem;
   margin: 0 auto;
+  margin-bottom: 1rem;
 
   .column-a {
     flex-shrink: 0;
@@ -37,11 +37,36 @@
       margin: 0;
       color: #b06c00;
       font-size: 1.5rem;
+      word-break: break-word
     }
 
     span {
       color: #8c5a00;
       font-size: 0.9rem;
+    }
+
+    .progress-update {
+      background-color: #fff9db; // ljusgul ton som matchar ActiveBook
+      border-radius: 1.5rem;
+      padding: 1rem 1.5rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+
+
+      .progress-update-row {
+        display: flex;
+        gap: 0.5rem;
+        
+        input {
+          min-width: 100px;
+        }
+        button {
+          margin: 0;
+        }
+      }
     }
 
     .progress-wrapper {
@@ -71,7 +96,7 @@
     }
   }
 
-  // RESPONSIVT
+  // RESPONSIVE
   @media (max-width: 768px) {
     flex-direction: column;
     align-items: center;

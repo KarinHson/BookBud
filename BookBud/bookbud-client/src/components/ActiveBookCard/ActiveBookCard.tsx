@@ -96,8 +96,8 @@ export const ActiveBookCard = () => {
         {activeBook.meetingInfo && (
           <span>Meeting info: {activeBook.meetingInfo}</span>
         )}
-        <ProgressBar percent={progressPercent} totalPages={totalPages} pagesRead={pagesRead}/>
         <div className='progress-update'>
+          <ProgressBar percent={progressPercent} totalPages={totalPages} pagesRead={pagesRead}/>
           <label htmlFor="pagesRead">Log your reading progress</label>
           <div className='progress-update-row'>
             <input 
