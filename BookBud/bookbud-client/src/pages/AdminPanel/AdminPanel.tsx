@@ -1,5 +1,5 @@
 import './AdminPanel.scss';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Plus, Upload, BookOpen, Info } from 'lucide-react';
 import type { Book } from '../../models/book';
 import { checkIfActiveBookExists } from '../../helpers/bookHelpers';
@@ -18,14 +18,10 @@ export const AdminPanel = ({ activeBook }: AdminPanelProps) => {
 
   const [activeBookState, setActiveBookState] = useState<Book | null>(null);
   const [allBooks, setAllBooks] = useState<Book[]>([]);
+  const [editingBook, setEditingBook] = useState<Book | null>(null);
 
-  const [title, setTitle] = useState('');
-  const [author, setAuthor] = useState('');
-  const [pageCount, setPageCount] = useState<number | ''>('');
-  const [year, setYear] = useState<number | ''>('');
-  const [coverUrl, setCoverUrl] = useState('');
-  const [meetingInfo, setMeetingInfo] = useState('');
-  const [isActive, setIsActive] = useState(false);
+  const editFormRef = useRef<HTMLDivElement>(null);
+
 
   useEffect(() => {
   const fetchBooks = async () => {
@@ -55,6 +51,13 @@ export const AdminPanel = ({ activeBook }: AdminPanelProps) => {
 
     fetchActiveBook();
 }, []);
+
+//makes the site scroll up to the Edit form when Edit is pressed on a book
+useEffect(() => {
+  if (editingBook && editFormRef.current) {
+    editFormRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}, [editingBook]);
 
 const handleSubmit = async (bookData: Omit<Book, '_id'>) => {
   try {
@@ -106,6 +109,32 @@ const handleDeleteBook = async (book: Book) => {
   }
 };
 
+const handleUpdateBook = async (updatedBookData: Omit<Book, '_id'>) => {
+  if (!editingBook) return;
+
+  try {
+    const updatedBook = await booksService.updateBook(editingBook._id, updatedBookData);
+
+    // uppdate the book in all books
+    setAllBooks(prev => prev.map(b => (b._id === updatedBook._id ? updatedBook : b)));
+
+    //if the updated book was active, update activeBookState
+    if (updatedBook.isActive) {
+      setActiveBookState(updatedBook);
+      setActiveBookExists(true);
+    } else if (editingBook.isActive && !updatedBook.isActive) {
+      setActiveBookState(null);
+      setActiveBookExists(false);
+    }
+
+    // close the edit form 
+    setEditingBook(null);
+  } catch (err) {
+    console.error('Failed to update book', err);
+    alert('Could not update the book. Check console for details.');
+  }
+};
+
   return (
     <div className="admin-panel">
       <header className="admin-header">
@@ -135,19 +164,34 @@ const handleDeleteBook = async (book: Book) => {
 
       {showForm && (
         <section className="add-book-form">
-        <h2>Add New Book</h2>
-        <BookForm
-          onSubmit={handleSubmit}
-          onCancel={() => setShowForm(false)}
+          <div className="book-form-wrapper">
+            <BookForm
+            onSubmit={handleSubmit}
+            onCancel={() => setShowForm(false)}
+            activeBookExists={activeBookExists}
+            activeBookId={activeBookState?._id}
+            />
+          </div>
+        </section>
+      )}
+      {editingBook && (
+        <section className="edit-book-form" ref={editFormRef}>
+          <div className="book-form-wrapper">
+          <BookForm
+          book={editingBook}
+          onSubmit={handleUpdateBook}
+          onCancel={() => setEditingBook(null)}
           activeBookExists={activeBookExists}
-    />
-  </section>
+          activeBookId={activeBookState?._id}
+          />
+          </div>
+        </section>
       )}
       <section className="all-books">
         <h2>All Books</h2>
         <AdminBookList
           books={allBooks}
-          onEdit={(book) => console.log('Edit', book)}
+          onEdit={(book) => setEditingBook(book)}
           onDelete={handleDeleteBook}
         />
       </section>

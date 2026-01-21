@@ -1,5 +1,6 @@
 import './InactiveBookCard.scss';
 import { Book } from '../../models/book';
+import { BookCoverPlaceholder } from '../BookCoverPlaceholder/BookCoverPlaceholder';
 
 interface InactiveBookCardProps {
   book: Book;
@@ -9,11 +10,9 @@ export const InactiveBookCard = ({ book }: InactiveBookCardProps) => {
   return (
     <div className="inactive-book-card">
       {/* Book Cover */}
-      <img
-        className="cover"
-        src={book.coverUrl}
-        alt={book.title}
-      />
+      {book.coverUrl
+        ? <img src={book.coverUrl} alt={book.title} />
+        : <BookCoverPlaceholder />}
 
       {/* Book Info */}
       <div className="info">
