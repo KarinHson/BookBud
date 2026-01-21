@@ -1,6 +1,7 @@
 import './AdminBookCard.scss';
 import { Book } from '../../models/book';
 import { Pencil, Trash2 } from 'lucide-react';
+import { BookCoverPlaceholder } from '../BookCoverPlaceholder/BookCoverPlaceholder';
 
 interface AdminBookCardProps {
   book: Book;
@@ -11,12 +12,11 @@ interface AdminBookCardProps {
 export const AdminBookCard = ({ book, onEdit, onDelete }: AdminBookCardProps) => {
   return (
     <div className="admin-book-card">
-      <div className="column-a">
-        <img
-          src={book.coverUrl || '/images/default-book-cover.png'}
-          alt={book.title}
-        />
-      </div>
+        <div className="column-a">
+            {book.coverUrl
+            ? <img src={book.coverUrl} alt={book.title} />
+            : <BookCoverPlaceholder />}
+        </div>
 
       <div className="column-b">
         <h3>{book.title}</h3>

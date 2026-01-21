@@ -6,6 +6,7 @@ import { booksService } from '../../services/booksService';
 import { progressService } from '../../services/progressService';
 import { authService } from '../../services/authService';
 import { calcProgressPercent } from '../../helpers/calcProgressPercent';
+import { BookCoverPlaceholder } from '../BookCoverPlaceholder/BookCoverPlaceholder';
 
 export const ActiveBookCard = () => {
 
@@ -82,10 +83,9 @@ export const ActiveBookCard = () => {
   return (
     <div className="book-card">
       <div className="column-a">
-        <img
-          src={activeBook.coverUrl || '/images/default-book-cover.png'} //TODO: add fallback img
-          alt={activeBook.title}
-        />
+        {activeBook.coverUrl
+          ? <img src={activeBook.coverUrl} alt={activeBook.title} />
+          : <BookCoverPlaceholder />}
       </div>
 
       <div className="column-b">
