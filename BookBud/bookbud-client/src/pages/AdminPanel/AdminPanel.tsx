@@ -160,9 +160,14 @@ const handleUpdateBook = async (updatedBookData: Omit<Book, '_id'>) => {
       </section>
 
       {!showForm && (
-        <button className="add-book-btn" onClick={() => setShowForm(true)}>
-          <Plus className="icon" />
-          Add new book
+        <button 
+          className="add-book-btn" 
+          onClick={() => {
+            setEditingBook(null);
+            setShowForm(true);
+          }}>
+            <Plus className="icon" />
+            Add new book
         </button>
       )}
 
@@ -195,7 +200,10 @@ const handleUpdateBook = async (updatedBookData: Omit<Book, '_id'>) => {
         <h2>All Books</h2>
         <AdminBookList
           books={allBooks}
-          onEdit={(book) => setEditingBook(book)}
+          onEdit={(book) => {
+              setShowForm(false); // stäng New Book form
+              setEditingBook(book); // öppna Edit form
+          }}
           onDelete={handleDeleteBook}
         />
       </section>
