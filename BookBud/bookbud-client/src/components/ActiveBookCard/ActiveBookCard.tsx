@@ -89,15 +89,15 @@ export const ActiveBookCard = () => {
       </div>
 
       <div className="column-b">
-        <h1>{activeBook.title}</h1>
+        <h2>{activeBook.title}</h2>
         <span>by {activeBook.author}</span>
         <span>{activeBook.pageCount} pages</span>
-        <span>{activeBook.year}</span>
+        <span>Published {activeBook.year}</span>
         {activeBook.meetingInfo && (
           <span>Meeting info: {activeBook.meetingInfo}</span>
         )}
-        <ProgressBar percent={progressPercent} totalPages={totalPages} pagesRead={pagesRead}/>
         <div className='progress-update'>
+          <ProgressBar percent={progressPercent} totalPages={totalPages} pagesRead={pagesRead}/>
           <label htmlFor="pagesRead">Log your reading progress</label>
           <div className='progress-update-row'>
             <input 

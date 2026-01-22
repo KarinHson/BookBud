@@ -13,7 +13,7 @@ export const Header = ({ isAdmin }: HeaderProps) => {
   const { logout } = useAuth();
 
   const navItems = [
-    { id: 'user-dashboard', label: 'Active Book', path: '/active-book', icon: Book },
+    { id: 'user-dashboard', label: 'Current Book', path: '/active-book', icon: Book },
     { id: 'members', label: "Members' Progress", path: '/members-progress', icon: Users },
     { id: 'finished', label: 'Finished Books', path: '/finished-books', icon: Archive },
     ...(isAdmin ? [{ id: 'admin', label: 'Admin Panel', path: '/admin-panel', icon: Settings }] : []),

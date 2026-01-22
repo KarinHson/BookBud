@@ -1,6 +1,5 @@
 .book-card {
-  width: 90%;
-  height: 50vh;
+  width: 100%;
   max-width: 1000px;
   background-color: #fff;
   border-radius: 2rem;
@@ -8,7 +7,8 @@
   padding: 2rem;
   display: flex;
   gap: 2rem;
-  margin: 0 auto;
+  margin: 0;
+  margin-bottom: 1rem;
 
   .column-a {
     flex-shrink: 0;
@@ -33,15 +33,43 @@
     flex-direction: column;
     gap: 1rem;
 
-    h1 {
+    h2 {
       margin: 0;
-      color: #b06c00;
-      font-size: 1.5rem;
+      color: #713f12;;
+      font-size: 2rem;
+      word-break: break-word
     }
 
     span {
-      color: #8c5a00;
-      font-size: 0.9rem;
+      color: #713f12;;
+      font-size: 1rem;
+      margin-top: 0.2rem;
+    }
+
+    .progress-update {
+      background-color: #fff9db;
+      border-radius: 1.5rem;
+      padding: 1rem 1.5rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: auto;
+
+
+      .progress-update-row {
+        display: flex;
+        gap: 0.5rem;
+        
+
+        input {
+          min-width: 100px;
+        }
+        button {
+          margin: 0;
+        }
+      }
     }
 
     .progress-wrapper {
@@ -64,14 +92,14 @@
         font-size: 0.75rem;
 
         span {
-          color: black;
+          color: #713f12;;
           font-weight: 600;
         }
       }
     }
   }
 
-  // RESPONSIVT
+  // RESPONSIVE
   @media (max-width: 768px) {
     flex-direction: column;
     align-items: center;

@@ -81,8 +81,12 @@ const handleSubmit = async (bookData: Omit<Book, '_id'>) => {
 const handleMarkAsFinished = async (book: Book) => {
   const confirmed = window.confirm(`Are you sure you want to mark "${book.title}" as finished? This will move the book to Finished Books`);
   if (!confirmed) return; // the user pressed cancel
+
   try {
-    await booksService.updateBook(book._id, { isActive: false });
+    const updatedBook = await booksService.updateBook(book._id, { isActive: false });
+
+    setAllBooks(prev => prev.map(b => (b._id === updatedBook._id ? updatedBook : b)));
+
     setActiveBookState(null);
     setActiveBookExists(false);
   } catch (err) {
@@ -139,11 +143,11 @@ const handleUpdateBook = async (updatedBookData: Omit<Book, '_id'>) => {
     <div className="admin-panel">
       <header className="admin-header">
         <h1>Admin Panel</h1>
-        <p>Manage your book club&apos;s reading</p>
+        <p>Manage your book club</p>
       </header>
 
       <section className="current-book">
-        <h2>Current Active Book</h2>
+        <h2>Current Book</h2>
 
         {activeBookState ? (
         <AdminActiveBookCard book={activeBookState} onMarkAsFinished={(book) => handleMarkAsFinished(book)}/>
@@ -156,9 +160,14 @@ const handleUpdateBook = async (updatedBookData: Omit<Book, '_id'>) => {
       </section>
 
       {!showForm && (
-        <button className="add-book-btn" onClick={() => setShowForm(true)}>
-          <Plus className="icon" />
-          Add New Active Book
+        <button 
+          className="add-book-btn" 
+          onClick={() => {
+            setEditingBook(null);
+            setShowForm(true);
+          }}>
+            <Plus className="icon" />
+            Add new book
         </button>
       )}
 
@@ -191,7 +200,10 @@ const handleUpdateBook = async (updatedBookData: Omit<Book, '_id'>) => {
         <h2>All Books</h2>
         <AdminBookList
           books={allBooks}
-          onEdit={(book) => setEditingBook(book)}
+          onEdit={(book) => {
+              setShowForm(false); // stäng New Book form
+              setEditingBook(book); // öppna Edit form
+          }}
           onDelete={handleDeleteBook}
         />
       </section>

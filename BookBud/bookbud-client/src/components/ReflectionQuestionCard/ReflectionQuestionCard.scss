@@ -1,4 +1,7 @@
 .reflection-card {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
   display: flex;
   align-items: flex-start;
   gap: 1rem;
@@ -8,7 +11,7 @@
   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
 
   &__icon {
-    width: 3rem; // w-12
+    width: 3rem;
     height: 3rem;
     background-color: #c084fc;
     border-radius: 50%;
@@ -36,7 +39,8 @@
   }
 
   &__question {
-    color: #7c3aed;
-    font-size: 1rem;
+    color: #5b21b6;
+    font-size: 1.2rem;
+    font-weight: 400;
   }
 }

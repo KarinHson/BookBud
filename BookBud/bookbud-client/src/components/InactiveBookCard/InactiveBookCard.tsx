@@ -19,7 +19,7 @@ export const InactiveBookCard = ({ book }: InactiveBookCardProps) => {
         <h3>{book.title}</h3>
         <span>by {book.author}</span>
         <span>{book.pageCount} pages</span>
-        <span>{book.year}</span>
+        <span>Published {book.year}</span>
       </div>
     </div>
   );
