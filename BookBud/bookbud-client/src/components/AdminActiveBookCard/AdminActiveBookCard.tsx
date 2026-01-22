@@ -17,11 +17,11 @@ export const AdminActiveBookCard = ( { book, onMarkAsFinished }: AdminActiveBook
                 <h3>{book.title}</h3>
                 <p>by {book.author}</p>
                 <p>{book.pageCount} pages</p>
-                <p>Published: {book.year}</p>
+                <p>Published {book.year}</p>
                 {onMarkAsFinished && (
                     <button 
-                    className="mark-finished-btn"
-                    onClick={() => onMarkAsFinished(book)}
+                        className="mark-finished-btn"
+                        onClick={() => onMarkAsFinished(book)}
                     >
                     Mark as Finished
                     </button>

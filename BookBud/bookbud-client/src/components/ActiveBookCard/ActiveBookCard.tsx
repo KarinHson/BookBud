@@ -89,10 +89,10 @@ export const ActiveBookCard = () => {
       </div>
 
       <div className="column-b">
-        <h1>{activeBook.title}</h1>
+        <h2>{activeBook.title}</h2>
         <span>by {activeBook.author}</span>
         <span>{activeBook.pageCount} pages</span>
-        <span>{activeBook.year}</span>
+        <span>Published {activeBook.year}</span>
         {activeBook.meetingInfo && (
           <span>Meeting info: {activeBook.meetingInfo}</span>
         )}

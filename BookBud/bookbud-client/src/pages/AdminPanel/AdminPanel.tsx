@@ -139,11 +139,11 @@ const handleUpdateBook = async (updatedBookData: Omit<Book, '_id'>) => {
     <div className="admin-panel">
       <header className="admin-header">
         <h1>Admin Panel</h1>
-        <p>Manage your book club&apos;s reading</p>
+        <p>Manage your book club</p>
       </header>
 
       <section className="current-book">
-        <h2>Current Active Book</h2>
+        <h2>Current Book</h2>
 
         {activeBookState ? (
         <AdminActiveBookCard book={activeBookState} onMarkAsFinished={(book) => handleMarkAsFinished(book)}/>
@@ -158,7 +158,7 @@ const handleUpdateBook = async (updatedBookData: Omit<Book, '_id'>) => {
       {!showForm && (
         <button className="add-book-btn" onClick={() => setShowForm(true)}>
           <Plus className="icon" />
-          Add New Active Book
+          Add new book
         </button>
       )}
 

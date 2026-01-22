@@ -6,10 +6,10 @@ import { getRandomReflectionQuestion } from '../../helpers/getRandomReflectionQu
 export const ActiveBook = () => {
 
     return (
-        <>
-        <h1>Active book</h1>
-        <ActiveBookCard/>
-        <ReflectionQuestionCard question={getRandomReflectionQuestion()} />
-        </>
+        <div className='page-container'>
+            <h1>Current book</h1>
+            <ActiveBookCard/>
+            <ReflectionQuestionCard question={getRandomReflectionQuestion()} />
+        </div>
     );
 };
