@@ -81,8 +81,12 @@ const handleSubmit = async (bookData: Omit<Book, '_id'>) => {
 const handleMarkAsFinished = async (book: Book) => {
   const confirmed = window.confirm(`Are you sure you want to mark "${book.title}" as finished? This will move the book to Finished Books`);
   if (!confirmed) return; // the user pressed cancel
+
   try {
-    await booksService.updateBook(book._id, { isActive: false });
+    const updatedBook = await booksService.updateBook(book._id, { isActive: false });
+
+    setAllBooks(prev => prev.map(b => (b._id === updatedBook._id ? updatedBook : b)));
+
     setActiveBookState(null);
     setActiveBookExists(false);
   } catch (err) {
