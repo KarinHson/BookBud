@@ -1,3 +1,4 @@
+import './BookForm.scss'
 import { useState, useEffect } from 'react';
 import { Upload } from 'lucide-react';
 import type { Book } from '../../models/book';
@@ -53,6 +54,7 @@ export const BookForm = ({ book, onSubmit, onCancel, activeBookExists, activeBoo
   return (
     <div className="book-form-wrapper">
         <h2>{book ? 'Edit Book' : 'Add New Book'}</h2>
+        <span>Note: There can only be one current book at a time. To set a new current book, you must first mark the existing one as finished.</span>
 
     <form className="form" onSubmit={handleSubmit}>
       <div className="form-group">
@@ -82,12 +84,12 @@ export const BookForm = ({ book, onSubmit, onCancel, activeBookExists, activeBoo
       <div className="form-group cover-input">
         <label htmlFor="coverImage">Book Cover Image URL</label>
         <Upload className="icon" />
-        <input id="coverImage" type="url" value={coverUrl} onChange={e => setCoverUrl(e.target.value)} />
+        <input id="coverImage" type="url" value={coverUrl} onChange={e => setCoverUrl(e.target.value)} placeholder='Paste image URL (from web, e.g., book cover on website)'/>
       </div>
 
       <div className="form-group">
         <label htmlFor="meetingInfo">Meeting Info, optional</label>
-        <input id="meetingInfo" type="text" value={meetingInfo} onChange={e => setMeetingInfo(e.target.value)} />
+        <input id="meetingInfo" type="text" value={meetingInfo} onChange={e => setMeetingInfo(e.target.value)} placeholder='e.g. Next meeting: March 12 at 18:00, City Library'/>
       </div>
 
       <div className="form-group checkbox-group">
@@ -97,9 +99,9 @@ export const BookForm = ({ book, onSubmit, onCancel, activeBookExists, activeBoo
         disabled={disableIsActiveCheckbox} 
         checked={isActive}
         onChange={e => setIsActive(e.target.checked)} />
-        <label htmlFor="isActive">Current book</label>
+        <label htmlFor="isActive">Mark as current book</label>
         {disableIsActiveCheckbox && (
-          <p className="info-text">Another book is already set as current book. Only one book can be in progress at a time.</p>
+          <p className="info-text">Another book is already set as the current book. Only one book can be current at a time.</p>
         )}
       </div>
 
