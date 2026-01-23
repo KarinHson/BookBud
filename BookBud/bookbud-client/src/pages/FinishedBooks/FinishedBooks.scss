@@ -3,23 +3,20 @@
   margin: 0 auto;
   padding: 2rem;
 
-  .header {
-    margin-bottom: 2rem;
-
     h1 {
-      color: #b06c00;
-      margin-bottom: 0.5rem;
+      color: #713f12;
+      margin: 0;
     }
 
     p {
-      color: #8c5a00;
+      color: #713f12;
     }
-  }
 
   .books-grid {
-    display: grid;
-    gap: 1.5rem;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    display: flex;
+    flex-wrap: wrap; // gör att kort bryts till nästa rad
+    gap: 1.5rem;    // mellanrum mellan kort
+    justify-content: center; // korten börjar från vänster
   }
 
   .empty-state {
