@@ -15,17 +15,21 @@
   }
 }
 
-.no-members {
+.empty-state {
   text-align: center;
   padding: 3rem;
-  .users-icon {
+
+  svg {
     width: 4rem;
     height: 4rem;
     color: #facc15;
     margin-bottom: 0.5rem;
   }
+
   p {
     color: #a16207;
+    font-size: 1rem;
+    margin: 0;
   }
 }
 
