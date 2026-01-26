@@ -1,12 +1,14 @@
+@import "../../variables.scss";
+
 .top-reader-highlight {
-  background: linear-gradient(to right,#fff3b0, #FBBF24);
+  background: $button-gradient;
   border-radius: 1.5rem;
   padding: 1rem;
   margin-bottom: 1.5rem;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  color: $text-color;
 
   p {
-    color: #713f12;
     font-size: 0.9rem;
   }
 }
@@ -19,7 +21,6 @@
 
   h3 {
     margin: 0;
-    color: #713f12;
     font-size: 1rem;
     font-weight: 600;
   }
@@ -27,6 +28,5 @@
   svg {
     width: 1.25rem;
     height: 1.25rem;
-    color: #713f12;
   }
 }

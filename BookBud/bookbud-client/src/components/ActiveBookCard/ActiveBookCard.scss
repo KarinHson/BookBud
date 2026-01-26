@@ -1,3 +1,5 @@
+@import "../../variables.scss";
+
 .book-card {
   width: 100%;
   max-width: 1000px;
@@ -9,14 +11,15 @@
   gap: 1rem;
   margin: 0;
   margin-bottom: 1rem;
+  color: $text-color;
 
   .column-a {
-      flex-shrink: 0;
-  width: 200px;
-  height: 300px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    flex-shrink: 0;
+    width: 200px;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     img {
       width: 100%;
@@ -35,13 +38,11 @@
 
     h2 {
       margin: 0;
-      color: #713f12;;
       font-size: 2rem;
       word-break: break-word
     }
 
     span {
-      color: #713f12;;
       font-size: 1rem;
       margin-top: 0.2rem;
     }
@@ -97,8 +98,7 @@
       .progress-fill {
         height: 100%;
         width: 75%;
-        background: linear-gradient(to right,   #fff3b0,
-  #FBBF24);
+        background: $button-gradient;
         border-radius: 999px;
         display: flex;
         align-items: center;
@@ -107,7 +107,6 @@
         font-size: 0.75rem;
 
         span {
-          color: #713f12;;
           font-weight: 600;
         }
       }

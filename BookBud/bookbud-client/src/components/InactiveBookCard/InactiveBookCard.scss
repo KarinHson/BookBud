@@ -1,3 +1,5 @@
+@import "../../variables.scss";
+
 .inactive-book-card {
   flex: 0 0 250px;
   background-color: #fff;
@@ -8,6 +10,7 @@
   flex-direction: column;
   align-items: center;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  color: $text-color;
 
   &:hover {
     transform: translateY(-4px);
@@ -29,7 +32,6 @@
     gap: 0.25rem;
     width: 100%;
     text-align: center;
-    color: #713f12;
 
     h3 {
       font-size: 1.1rem;
@@ -48,11 +50,10 @@
       gap: 0.5rem;
 
       .chip {
-        background-color: #fff3b0;
+        background-color: $chip-bg-color;
         padding: 0.25rem 0.75rem;
         border-radius: 9999px;
         font-size: 0.8rem;
-        color: #b06c00;
         font-weight: 500;
       }
     }

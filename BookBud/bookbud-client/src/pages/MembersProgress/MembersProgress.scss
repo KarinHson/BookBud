@@ -1,17 +1,16 @@
+@use "../../variables.scss" as *;
+
 .members-progress-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 1rem;
+  color: $text-color;
 }
 
 .members-progress-header {
   margin-bottom: 1.5rem;
   h1 {
-    color: #713f12;
     margin-bottom: 0.25rem;
-  }
-  p {
-    color: #a16207;
   }
 }
 
@@ -27,7 +26,6 @@
   }
 
   p {
-    color: #a16207;
     font-size: 1rem;
     margin: 0;
   }
@@ -62,13 +60,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #713f12;
     font-weight: bold;
   }
 
   .member-name {
     h3 {
-      color: #713f12;
       font-weight: 600;
       font-size: 1rem;
       margin: 0;
@@ -77,7 +73,6 @@
       gap: 0.25rem;
     }
     p {
-      color: #a16207;
       font-size: 0.875rem;
       margin: 0;
     }
@@ -99,14 +94,13 @@
     .progress-bar {
       height: 0.5rem;
       border-radius: 0.5rem;
-      background: linear-gradient(to right,#fff3b0, #FBBF24);
+      background: $button-gradient;
       transition: width 0.5s ease;
     }
 
     .progress-percentage {
       margin-top: 0.25rem;
       font-size: 0.75rem;
-      color: #713f12;
       text-align: right;
     }
   }

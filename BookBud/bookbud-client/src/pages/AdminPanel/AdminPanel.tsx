@@ -1,6 +1,6 @@
 import './AdminPanel.scss';
 import { useState, useEffect, useRef } from 'react';
-import { Plus, Upload, BookOpen, Info } from 'lucide-react';
+import { Plus, BookOpen } from 'lucide-react';
 import type { Book } from '../../models/book';
 import { booksService } from '../../services/booksService';
 import { AdminActiveBookCard } from '../../components/AdminActiveBookCard/AdminActiveBookCard';

@@ -1,5 +1,5 @@
 import './Login.scss';
-import { Book, User } from 'lucide-react';
+import { Book, User, Sparkles } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -31,7 +31,6 @@ export const Login = () => {
     <div className="login-page">
       <div className="login-container">
 
-        {/* Logo & welcome */}
         <div className="login-header">
           <div className="login-logo">
             <Book />
@@ -40,7 +39,6 @@ export const Login = () => {
           <p>Here to make book clubbing more fun!</p>
         </div>
 
-        {/* Login card */}
         <div className="login-card">
           <h2>Sign In</h2>
 
@@ -79,9 +77,8 @@ export const Login = () => {
           </p>
         </div>
 
-        {/* Footer */}
         <footer className="login-footer">
-          <p>Happy reading! ✨</p>
+          <p>Happy reading! <Sparkles className="sparkle-icon" /></p>
         </footer>
 
       </div>
