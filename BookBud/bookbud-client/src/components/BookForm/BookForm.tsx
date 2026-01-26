@@ -96,11 +96,18 @@ export const BookForm = ({ book, onSubmit, onCancel, activeBookExists, activeBoo
 
         <div className="form-group checkbox-group">
           <input 
-          id="isActive" 
-          type="checkbox" 
-          disabled={disableIsActiveCheckbox} 
-          checked={isActive}
-          onChange={e => setIsActive(e.target.checked)} />
+            id="isActive" 
+            type="checkbox" 
+            disabled={disableIsActiveCheckbox} 
+            checked={isActive}
+            onChange={e => setIsActive(e.target.checked)} 
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                setIsActive(!isActive);
+              }
+            }}
+          />
           <label htmlFor="isActive">Mark as current book</label>
           {disableIsActiveCheckbox && (
             <p className="info-text">Another book is already set as the current book. Only one book can be current at a time.</p>
