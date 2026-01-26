@@ -24,7 +24,7 @@
 
     h2 {
       color: #78350F;
-      margin-bottom: 1rem;
+      margin-top: 0;
     }
 
     .book-details {
@@ -60,7 +60,7 @@
         width: 64px;
         height: 64px;
         margin-bottom: 0.5rem;
-         color: #FBBF24;
+        color: #FBBF24;
       }
     }
   }
@@ -72,12 +72,13 @@
     gap: 0.5rem;
     width: 100%;
     padding: 1rem;
-    background: linear-gradient(to right, #FBBF24, #F97316);
+    background: linear-gradient(to right,#fff3b0, #FBBF24);
     color: #78350F;
     border-radius: 1.5rem;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.2s ease;
+    margin-bottom: 1rem;
 
     .icon {
       width: 20px;

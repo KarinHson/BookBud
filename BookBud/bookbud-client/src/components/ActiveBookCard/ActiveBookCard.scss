@@ -13,7 +13,7 @@
   .column-a {
       flex-shrink: 0;
   width: 200px;
-  height: 300px; // 2:3
+  height: 300px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -97,7 +97,8 @@
       .progress-fill {
         height: 100%;
         width: 75%;
-        background: linear-gradient(to right, #fff7b1, #ffa500);
+        background: linear-gradient(to right,   #fff3b0,
+  #FBBF24);
         border-radius: 999px;
         display: flex;
         align-items: center;
