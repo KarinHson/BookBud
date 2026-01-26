@@ -1,3 +1,5 @@
+@use "../../variables.scss" as *;
+
 .page-container {
   width: 90%;
   max-width: 1000px;
@@ -9,5 +11,6 @@
     h1 {
         margin: 1rem;
         font-size: 2rem;
+        color: $text-color;
   }
 }

@@ -1,17 +1,16 @@
+@use "../../variables.scss" as *;
+
 .admin-panel {
   max-width: 800px;
   margin: 0 auto;
   padding: 2rem;
+  color: $text-color;
 
   .admin-header {
     margin-bottom: 2rem;
     h1 {
-      color: #78350F;
       font-size: 2rem;
       margin-bottom: 0.25rem;
-    }
-    p {
-      color: #78350F;
     }
   }
 
@@ -23,7 +22,6 @@
     margin-bottom: 1.5rem;
 
     h2 {
-      color: #78350F;
       margin-top: 0;
     }
 
@@ -41,11 +39,9 @@
 
       .book-info {
         h3 {
-          color: #78350F;
           margin-bottom: 0.25rem;
         }
         p {
-          color: #78350F;
           margin: 0.25rem 0;
         }
       }
@@ -54,7 +50,6 @@
     .no-book {
       text-align: center;
       padding: 2rem;
-      color: #78350F;
 
       .icon {
         width: 64px;
@@ -72,13 +67,13 @@
     gap: 0.5rem;
     width: 100%;
     padding: 1rem;
-    background: linear-gradient(to right,#fff3b0, #FBBF24);
-    color: #78350F;
+    background: $button-gradient;
     border-radius: 1.5rem;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.2s ease;
     margin-bottom: 1rem;
+    color: $text-color;
 
     .icon {
       width: 20px;

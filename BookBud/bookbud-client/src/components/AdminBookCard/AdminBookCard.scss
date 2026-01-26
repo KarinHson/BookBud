@@ -1,3 +1,5 @@
+@use "../../variables.scss" as *;
+
 .admin-book-card {
   display: flex;
   gap: 1.5rem;
@@ -7,7 +9,7 @@
   padding: 1.5rem;
   align-items: center;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  color: #78350F;
+  color: $text-color;
 
   &:hover {
     transform: translateY(-4px);
@@ -44,12 +46,10 @@
     h3 {
       margin: 0;
       font-size: 1.25rem;
-      color: #78350F;
     }
 
     span {
       font-size: 0.9rem;
-      color: #78350F;
     }
 
     .pages-year {
@@ -59,11 +59,10 @@
         margin-bottom: 0.5rem;
     
         .chip {
-            background-color: #fff3b0;
+            background-color: $chip-bg-color;
             padding: 0.25rem 0.75rem;
             border-radius: 9999px;
             font-size: 0.8rem;
-            color: #78350F;
             font-weight: 500;
         }
     }
@@ -77,7 +76,6 @@
         font-weight: 600;
       &.active {
         background-color: #fff3b0;
-        color: #78350F;
     }
     &.inactive {
         background-color: #dcfce7;
@@ -101,7 +99,7 @@
         font-weight: 600;
         cursor: pointer;
         transition: all 0.2s ease;
-        color: #78350F;
+        color: $text-color;
 
         svg {
           width: 16px;

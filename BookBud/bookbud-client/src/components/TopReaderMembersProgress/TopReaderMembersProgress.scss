@@ -1,4 +1,4 @@
-@import "../../variables.scss";
+@use "../../variables.scss" as *;
 
 .top-reader-highlight {
   background: $button-gradient;

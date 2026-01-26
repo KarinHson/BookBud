@@ -1,18 +1,19 @@
+@use "../../variables.scss" as *;
+
 .book-form-wrapper {
   background: #fff;
   border-radius: 2rem;
   padding: 1.5rem;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  color: $text-color;
 
   h2 {
-    color: #78350F;
     margin-bottom: 0.25rem;
   }
 
   span {
     display: block;
     font-size: 0.9rem;
-    color: #92400e;
     margin-bottom: 1.5rem;
   }
 
@@ -26,7 +27,6 @@
       flex-direction: column;
 
       label {
-        color: #78350F;
         margin-bottom: 0.25rem;
       }
 
@@ -85,13 +85,8 @@
         }
       }
 
-      label {
-        color: #78350F;
-      }
-
       .info-text {
         font-size: 0.85rem;
-        color: #92400e;
         margin-left: 1.5rem;
       }
     }
@@ -104,7 +99,7 @@
         flex: 1;
         border: 2px solid #FCD34D;
         background: none;
-        color: #78350F;
+        color: $text-color;
         border-radius: 1rem;
         padding: 0.75rem;
         cursor: pointer;
@@ -116,8 +111,8 @@
 
       .save-btn {
         flex: 1;
-        background: linear-gradient(to right,#fff3b0, #FBBF24);
-        color: #78350F;
+        background: $button-gradient;
+        color: $text-color;
         border-radius: 1rem;
         padding: 0.75rem;
         cursor: pointer;
