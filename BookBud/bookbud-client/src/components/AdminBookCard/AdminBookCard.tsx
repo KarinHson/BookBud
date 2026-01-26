@@ -21,9 +21,11 @@ export const AdminBookCard = ({ book, onEdit, onDelete }: AdminBookCardProps) =>
       <div className="column-b">
         <h3>{book.title}</h3>
         <span>by {book.author}</span>
-        <span>{book.pageCount} pages</span>
-        <span>{book.year}</span>
-        <span className={`status ${book.isActive ? 'active' : 'inactive'}`}>
+        <div className="pages-year">
+            <span className="chip">{book.pageCount} pages</span>
+            <span className="chip">Published {book.year}</span>
+        </div>
+        <span className={`status-chip ${book.isActive ? 'active' : 'inactive'}`}>
           {book.isActive ? 'In progress' : 'Finished'}
         </span>
 
