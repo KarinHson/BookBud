@@ -78,6 +78,11 @@
       input {
         width: 20px;
         height: 20px;
+
+        &:focus {
+            outline: 3px solid black;
+            outline-offset: 2px;
+        }
       }
 
       label {
