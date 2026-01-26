@@ -1,8 +1,7 @@
 import './AdminPanel.scss';
 import { useState, useEffect, useRef } from 'react';
-import { Plus, Upload, BookOpen, Info } from 'lucide-react';
+import { Plus, BookOpen } from 'lucide-react';
 import type { Book } from '../../models/book';
-import { checkIfActiveBookExists } from '../../helpers/bookHelpers';
 import { booksService } from '../../services/booksService';
 import { AdminActiveBookCard } from '../../components/AdminActiveBookCard/AdminActiveBookCard';
 import { AdminBookList } from '../../components/AdminBookList/AdminBookList';
@@ -173,19 +172,16 @@ const handleUpdateBook = async (updatedBookData: Omit<Book, '_id'>) => {
 
       {showForm && (
         <section className="add-book-form">
-          <div className="book-form-wrapper">
             <BookForm
             onSubmit={handleSubmit}
             onCancel={() => setShowForm(false)}
             activeBookExists={activeBookExists}
             activeBookId={activeBookState?._id}
             />
-          </div>
         </section>
       )}
       {editingBook && (
         <section className="edit-book-form" ref={editFormRef}>
-          <div className="book-form-wrapper">
           <BookForm
           book={editingBook}
           onSubmit={handleUpdateBook}
@@ -193,7 +189,6 @@ const handleUpdateBook = async (updatedBookData: Omit<Book, '_id'>) => {
           activeBookExists={activeBookExists}
           activeBookId={activeBookState?._id}
           />
-          </div>
         </section>
       )}
       <section className="all-books">

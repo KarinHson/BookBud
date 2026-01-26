@@ -30,7 +30,7 @@ export const Header = ({ isAdmin }: HeaderProps) => {
           <span className="logo-text">BookBud</span>
         </div>
 
-        {/* Desktop navigation */}
+        {/* desktop navigation, icons with text */}
         <div className="nav-desktop">
           {navItems.map((item) => {
             const isActive = location.pathname === item.path;
@@ -47,7 +47,7 @@ export const Header = ({ isAdmin }: HeaderProps) => {
           })}
         </div>
 
-        {/* Mobile navigation: only icons */}
+        {/* mobile navigation: only icons */}
         <div className="nav-mobile">
           {navItems.map((item) => {
             const isActive = location.pathname === item.path;
@@ -63,7 +63,7 @@ export const Header = ({ isAdmin }: HeaderProps) => {
             );
           })}
         </div>
-         {/* Log out */}
+        
         <button
           className="logout-button"
           aria-label="Log out"

@@ -1,4 +1,4 @@
-import { Users, Trophy, Award } from 'lucide-react';
+import { Users, Trophy, Award, BookOpen } from 'lucide-react';
 import { TopReaderMembersProgress } from '../../components/TopReaderMembersProgress/TopReaderMembersProgress';
 import './MembersProgress.scss';
 import { progressService } from '../../services/progressService';
@@ -30,9 +30,22 @@ export const MembersProgress = () => {
       .finally(() => setIsLoading(false));
   }, []);
 
-  if (isLoading) return <p>Loading members' progress...</p>;
-  if (error) return <p style={{ color: 'red' }}>{error}</p>;
-  if (!activeBook) return <p>No active book found</p>;
+  if (isLoading) {
+    return <p>Loading members' progress...</p>
+  };
+
+  if (error) {
+  return <p style={{ color: 'red' }}>{error}</p>;
+  };
+
+  if (!activeBook) {
+  return (
+    <div className="empty-state">
+      <BookOpen className="book-icon" />
+      <p>There's no current book right now</p>
+    </div>
+  );
+}
 
   const sortedMembers = [...members].sort((a, b) => b.pagesRead - a.pagesRead);
   const topReader = sortedMembers[0] ?? null;
@@ -58,9 +71,9 @@ export const MembersProgress = () => {
       )}
 
       {sortedMembers.length === 0 ? (
-        <div className="no-members">
+        <div className="empty-state">
           <Users className="users-icon" />
-          <p>No members found</p>
+          <p>No one has logged any reading progress yet</p>
         </div>
       ) : (
         <div className="members-list">

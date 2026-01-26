@@ -1,11 +1,12 @@
-/* Global box-sizing rules */
+@use "../../variables.scss" as *;
+
+// global box-sizing rules
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
-/* Page */
 .login-page {
   min-height: 100vh;
   background: linear-gradient(
@@ -18,6 +19,7 @@
   align-items: center;
   justify-content: center;
   padding: 1rem;
+  color: $text-color;
 }
 
 .login-container {
@@ -25,18 +27,12 @@
   max-width: 420px;
 }
 
-/* Header */
 .login-header {
   text-align: center;
   margin-bottom: 2rem;
 
   h1 {
-    color: #713f12;
     margin-bottom: 0.5rem;
-  }
-
-  p {
-    color: #a16207;
   }
 }
 
@@ -54,11 +50,11 @@
   svg {
     width: 2.5rem;
     height: 2.5rem;
-    color: #854d0e;
+    color: $text-color;
   }
 }
 
-/* Card */
+
 .login-card {
   background: white;
   border-radius: 2rem;
@@ -68,11 +64,9 @@
   h2 {
     text-align: center;
     margin-bottom: 1.5rem;
-    color: #713f12;
   }
 }
 
-/* Form */
 form {
   display: flex;
   flex-direction: column;
@@ -85,7 +79,6 @@ form {
 
   label {
     margin-bottom: 0.5rem;
-    color: #713f12;
   }
 }
 
@@ -99,7 +92,7 @@ form {
     transform: translateY(-50%);
     width: 1.25rem;
     height: 1.25rem;
-    color: #ca8a04;
+    color: $text-color;
   }
 
   input {
@@ -117,7 +110,7 @@ input {
 
   &:focus {
     outline: none;
-    border-color: #facc15;
+    border-color: black;
   }
 }
 
@@ -127,9 +120,8 @@ button {
   border-radius: 0.75rem;
   border: none;
   font-size: 1rem;
-  font-weight: 500;
-  color: #713f12;
-  background: linear-gradient(to right, #facc15, #fb923c);
+  font-weight: 600;
+  background: linear-gradient(to right,#fff3b0, #FBBF24);
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
   transition: all 0.2s ease;
@@ -144,13 +136,15 @@ button {
   margin-top: 1.5rem;
   text-align: center;
   font-size: 0.875rem;
-  color: #ca8a04;
 }
 
-/* Footer */
 .login-footer {
   margin-top: 1.5rem;
   text-align: center;
-  color: #a16207;
   font-size: 0.875rem;
+
+  .sparkle-icon {
+      color: #FBBF24;
+      vertical-align: bottom;
+  }
 }

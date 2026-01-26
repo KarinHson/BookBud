@@ -5,7 +5,13 @@ import { Progress } from '../models/Progress';
 export const getProgressForActiveBook = async (req: Request, res: Response) => {
   try {
     const activeBook = await Book.findOne({ isActive: true }).lean();
-    if (!activeBook) return res.status(404).json({ message: 'No active book found' });
+
+    if (!activeBook) {
+      return res.status(200).json({
+        book: null,
+        members: [],
+      });
+    }
 
     const bookObjectId = activeBook._id;
     const bookIdString = bookObjectId.toString();

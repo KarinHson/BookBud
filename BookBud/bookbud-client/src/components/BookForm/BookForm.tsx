@@ -1,6 +1,8 @@
+import './BookForm.scss'
 import { useState, useEffect } from 'react';
 import { Upload } from 'lucide-react';
 import type { Book } from '../../models/book';
+import { FocusTrap } from 'focus-trap-react';
 
 interface BookFormProps {
   book?: Book;
@@ -51,63 +53,78 @@ export const BookForm = ({ book, onSubmit, onCancel, activeBookExists, activeBoo
   };
 
   return (
-    <div className="book-form-wrapper">
-        <h2>{book ? 'Edit Book' : 'Add New Book'}</h2>
+    <FocusTrap
+      active={true}
+      focusTrapOptions={{
+      clickOutsideDeactivates: true
+      }}
+    >
+      <div className="book-form-wrapper">
+          <h2>{book ? 'Edit Book' : 'Add New Book'}</h2>
+          <span>Note: There can only be one current book at a time. To set a new current book, you must first mark the existing one as finished.</span>
 
-    <form className="form" onSubmit={handleSubmit}>
-      <div className="form-group">
-        <label htmlFor="title">Book Title *</label>
-        <input id="title" type="text" value={title} onChange={e => setTitle(e.target.value)} />
-      </div>
-
-      <div className="form-group">
-        <label htmlFor="author">Author *</label>
-        <input id="author" type="text" value={author} onChange={e => setAuthor(e.target.value)} />
-      </div>
-
-      <div className="form-row">
+      <form className="form" onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="pages">Number of Pages *</label>
-          <input id="pages" type="number" min={1} value={pageCount}
-            onChange={e => setPageCount(e.target.value === '' ? '' : Number(e.target.value))} />
+          <label htmlFor="title">Book Title *</label>
+          <input id="title" type="text" value={title} onChange={e => setTitle(e.target.value)} />
         </div>
 
         <div className="form-group">
-          <label htmlFor="year">Publication Year *</label>
-          <input id="year" type="number" min={0} value={year}
-            onChange={e => setYear(e.target.value === '' ? '' : Number(e.target.value))} />
+          <label htmlFor="author">Author *</label>
+          <input id="author" type="text" value={author} onChange={e => setAuthor(e.target.value)} />
         </div>
-      </div>
 
-      <div className="form-group cover-input">
-        <label htmlFor="coverImage">Book Cover Image URL</label>
-        <Upload className="icon" />
-        <input id="coverImage" type="url" value={coverUrl} onChange={e => setCoverUrl(e.target.value)} />
-      </div>
+        <div className="form-row">
+          <div className="form-group">
+            <label htmlFor="pages">Number of Pages *</label>
+            <input id="pages" type="number" min={1} value={pageCount}
+              onChange={e => setPageCount(e.target.value === '' ? '' : Number(e.target.value))} />
+          </div>
 
-      <div className="form-group">
-        <label htmlFor="meetingInfo">Meeting Info, optional</label>
-        <input id="meetingInfo" type="text" value={meetingInfo} onChange={e => setMeetingInfo(e.target.value)} />
-      </div>
+          <div className="form-group">
+            <label htmlFor="year">Publication Year *</label>
+            <input id="year" type="number" min={0} value={year}
+              onChange={e => setYear(e.target.value === '' ? '' : Number(e.target.value))} />
+          </div>
+        </div>
 
-      <div className="form-group checkbox-group">
-        <input 
-        id="isActive" 
-        type="checkbox" 
-        disabled={disableIsActiveCheckbox} 
-        checked={isActive}
-        onChange={e => setIsActive(e.target.checked)} />
-        <label htmlFor="isActive">Current book</label>
-        {disableIsActiveCheckbox && (
-          <p className="info-text">Another book is already set as current book. Only one book can be in progress at a time.</p>
-        )}
-      </div>
+        <div className="form-group cover-input">
+          <label htmlFor="coverImage">Book Cover Image URL</label>
+          <Upload className="icon" />
+          <input id="coverImage" type="url" value={coverUrl} onChange={e => setCoverUrl(e.target.value)} placeholder='Paste image URL (from web, e.g., book cover on website)'/>
+        </div>
 
-      <div className="form-actions">
-        <button type="button" className="cancel-btn" onClick={onCancel}>Cancel</button>
-        <button type="submit" className="save-btn">Save Book</button>
+        <div className="form-group">
+          <label htmlFor="meetingInfo">Meeting Info, optional</label>
+          <input id="meetingInfo" type="text" value={meetingInfo} onChange={e => setMeetingInfo(e.target.value)} placeholder='e.g. Next meeting: March 12 at 18:00, City Library'/>
+        </div>
+
+        <div className="form-group checkbox-group">
+          <input 
+            id="isActive" 
+            type="checkbox" 
+            disabled={disableIsActiveCheckbox} 
+            checked={isActive}
+            onChange={e => setIsActive(e.target.checked)} 
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                setIsActive(!isActive);
+              }
+            }}
+          />
+          <label htmlFor="isActive">Mark as current book</label>
+          {disableIsActiveCheckbox && (
+            <p className="info-text">Another book is already set as the current book. Only one book can be current at a time.</p>
+          )}
+        </div>
+
+        <div className="form-actions">
+          <button type="button" className="cancel-btn" onClick={onCancel}>Cancel</button>
+          <button type="submit" className="save-btn">Save Book</button>
+        </div>
+      </form>
       </div>
-    </form>
-    </div>
+    </FocusTrap>
   );
 };
