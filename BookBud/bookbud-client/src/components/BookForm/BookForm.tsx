@@ -53,7 +53,12 @@ export const BookForm = ({ book, onSubmit, onCancel, activeBookExists, activeBoo
   };
 
   return (
-    <FocusTrap>
+    <FocusTrap
+      active={true}
+      focusTrapOptions={{
+      clickOutsideDeactivates: true
+      }}
+    >
       <div className="book-form-wrapper">
           <h2>{book ? 'Edit Book' : 'Add New Book'}</h2>
           <span>Note: There can only be one current book at a time. To set a new current book, you must first mark the existing one as finished.</span>
