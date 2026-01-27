@@ -108,10 +108,7 @@ export const MembersProgress = () => {
                       {progressPercentage}%
                     </span>
                   </div>
-
-                  {isTopThree && (
-                    <div className="medal-container">{medals[index]}</div>
-                  )}
+                  <div className="medal-container">{isTopThree && medals[index]}</div>
                 </div>
               </div>
             );
