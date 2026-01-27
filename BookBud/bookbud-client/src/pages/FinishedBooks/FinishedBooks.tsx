@@ -24,11 +24,11 @@ export const FinishedBooks = () => {
       <p>Your book club&apos;s reading history</p>
 
     {inactiveBooks.length > 0 ? (
-      <div className="books-grid">
+      <ul className="books-grid">
         {inactiveBooks.map((inactiveBook) => (
           <InactiveBookCard key={inactiveBook._id} book={inactiveBook} />
         ))}
-      </div>
+      </ul>
     ) : (
       <div className="empty-state">
         <p>No finished books yet</p>

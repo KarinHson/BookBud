@@ -57,8 +57,15 @@
   
   .nav-desktop {
     display: flex;
-    gap: 0.5rem;
-  
+    
+    .nav-ul {
+      display: inherit;
+      gap: 0.5rem;
+      padding: 0;
+      margin: 0;
+      list-style-type: none;
+    }
+
     .nav-button {
       display: flex;
       align-items: center;

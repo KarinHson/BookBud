@@ -59,7 +59,7 @@ export const MembersProgress = () => {
   return (
     <div className="members-progress-container">
       <div className="members-progress-header">
-        <h1>Club Members' Progress</h1>
+        <h1 id="members-progress-heading">Club Members' Progress</h1>
         <p>See how everyone is doing with "{activeBook.title}"</p>
       </div>
 
@@ -72,11 +72,11 @@ export const MembersProgress = () => {
 
       {sortedMembers.length === 0 ? (
         <div className="empty-state">
-          <Users className="users-icon" />
+          <Users className="users-icon" aria-hidden="true" />
           <p>No one has logged any reading progress yet</p>
         </div>
       ) : (
-        <div className="members-list">
+        <ul aria-labelledby={'members-progress-heading'} className="members-list">
           {sortedMembers.map((member, index) => {
             const progressPercentage = calcProgressPercent(
               member.pagesRead,
@@ -85,13 +85,13 @@ export const MembersProgress = () => {
             const isTopThree = index < 3;
 
             return (
-              <div key={member.userId} className="member-card">
+              <li key={member.userId} className="member-card">
                 <div className="member-info">
-                  <div className="member-icon">
+                  <div className="member-icon" aria-hidden="true">
                     <span>{member.name.charAt(0)}</span>
                   </div>
                   <div className="member-name">
-                    <h3>{member.name}</h3>
+                    <h3 aria-label={`Number ${index+1} reader, ${member.name}`}>{member.name}</h3>
                     <p>
                       {member.pagesRead} / {activeBook.pageCount} pages
                     </p>
@@ -110,10 +110,10 @@ export const MembersProgress = () => {
                   </div>
                   <div className="medal-container">{isTopThree && medals[index]}</div>
                 </div>
-              </div>
+              </li>
             );
           })}
-        </div>
+        </ul>
       )}
     </div>
   );

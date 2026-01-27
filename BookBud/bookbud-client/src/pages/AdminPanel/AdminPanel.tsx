@@ -192,12 +192,12 @@ const handleUpdateBook = async (updatedBookData: Omit<Book, '_id'>) => {
         </section>
       )}
       <section className="all-books">
-        <h2>All Books</h2>
+        <h2 id="all-books-heading">All Books</h2>
         <AdminBookList
           books={allBooks}
           onEdit={(book) => {
-              setShowForm(false); // stäng New Book form
-              setEditingBook(book); // öppna Edit form
+              setShowForm(false); // close New Book form
+              setEditingBook(book); // open Edit form
           }}
           onDelete={handleDeleteBook}
         />

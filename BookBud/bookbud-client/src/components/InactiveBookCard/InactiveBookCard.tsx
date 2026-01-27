@@ -8,10 +8,10 @@ interface InactiveBookCardProps {
 
 export const InactiveBookCard = ({ book }: InactiveBookCardProps) => {
   return (
-    <div className="inactive-book-card">
+    <li className="inactive-book-card">
       {/* Book Cover */}
       {book.coverUrl
-        ? <img src={book.coverUrl} alt={book.title} className="cover"/>
+        ? <img src={book.coverUrl} alt={`${book.title} book cover image`} className="cover"/>
         : <BookCoverPlaceholder />}
 
       {/* Book Info */}
@@ -23,6 +23,6 @@ export const InactiveBookCard = ({ book }: InactiveBookCardProps) => {
           <span className="chip">Published {book.year}</span>
         </div>
       </div>
-    </div>
+    </li>
   );
 };
