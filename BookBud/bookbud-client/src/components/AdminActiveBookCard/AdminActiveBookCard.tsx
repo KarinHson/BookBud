@@ -12,7 +12,7 @@ export const AdminActiveBookCard = ( { book, onMarkAsFinished }: AdminActiveBook
         <div className="admin-active-book-card">
             <div className="cover">
                 {book.coverUrl
-                ? <img src={book.coverUrl} alt={book.title} />
+                ? <img src={book.coverUrl} alt={`${book.title} book cover image`} />
                 : <BookCoverPlaceholder />}
             </div>
             <div className='book-info'>

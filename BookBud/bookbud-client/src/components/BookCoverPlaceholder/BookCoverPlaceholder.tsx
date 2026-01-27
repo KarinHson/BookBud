@@ -4,7 +4,7 @@ import './BookCoverPlaceholder.scss';
 export const BookCoverPlaceholder = () => {
     return (
         <div className="cover book-cover-placeholder">
-        <BookOpen className="book-icon" />
+        <BookOpen className="book-icon"/>
         </div>
   );
 };

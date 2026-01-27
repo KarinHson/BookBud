@@ -14,7 +14,7 @@ export const AdminBookList = ({ books, onEdit, onDelete }: AdminBookListProps) =
     }
 
     return (
-        <div className="admin-book-list">
+        <ul className="admin-book-list" aria-labelledby="all-books-heading">
             {[...books].reverse().map((book) => (
                 <AdminBookCard
                     key={book._id}
@@ -23,6 +23,6 @@ export const AdminBookList = ({ books, onEdit, onDelete }: AdminBookListProps) =
                     onDelete={onDelete}
                 />
             ))}
-        </div>
+        </ul>
     );
 };

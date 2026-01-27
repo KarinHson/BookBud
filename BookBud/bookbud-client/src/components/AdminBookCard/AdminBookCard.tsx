@@ -11,10 +11,10 @@ interface AdminBookCardProps {
 
 export const AdminBookCard = ({ book, onEdit, onDelete }: AdminBookCardProps) => {
   return (
-    <div className="admin-book-card">
+    <li className="admin-book-card">
         <div className="column-a">
             {book.coverUrl
-            ? <img src={book.coverUrl} alt={book.title} />
+            ? <img src={book.coverUrl} alt={`${book.title} book cover image`} />
             : <BookCoverPlaceholder />}
         </div>
 
@@ -42,6 +42,6 @@ export const AdminBookCard = ({ book, onEdit, onDelete }: AdminBookCardProps) =>
           )}
         </div>
       </div>
-    </div>
+    </li>
   );
 };

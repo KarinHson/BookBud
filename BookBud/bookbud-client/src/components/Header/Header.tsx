@@ -27,25 +27,29 @@ export const Header = ({ isAdmin }: HeaderProps) => {
           <div className="logo-icon">
             <Book />
           </div>
-          <span className="logo-text">BookBud</span>
+          <span className="logo-text" id="logo-text">BookBud</span>
         </div>
 
         {/* desktop navigation, icons with text */}
-        <div className="nav-desktop">
-          {navItems.map((item) => {
-            const isActive = location.pathname === item.path;
-            return (
-              <button
-                key={item.id}
-                className={`nav-button ${isActive ? 'active' : ''}`}
-                onClick={() => navigate(item.path)}
-              >
-                <item.icon className="nav-icon" />
-                <span className="nav-label">{item.label}</span>
-              </button>
-            );
-          })}
-        </div>
+        <nav className="nav-desktop" aria-labelledby="logo-text">
+          <ul className="nav-ul">
+            {navItems.map((item) => {
+              const isActive = location.pathname === item.path;
+              return (
+                <li key={item.id}>
+                  <button
+                    className={`nav-button ${isActive ? 'active' : ''}`}
+                    onClick={() => navigate(item.path)}
+                    tabIndex={0}
+                  >
+                    <item.icon className="nav-icon" />
+                    <span className="nav-label">{item.label}</span>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
 
         {/* mobile navigation: only icons */}
         <div className="nav-mobile">
