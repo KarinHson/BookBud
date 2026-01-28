@@ -153,7 +153,7 @@ const handleUpdateBook = async (updatedBookData: Omit<Book, '_id'>) => {
         ) : (
           <div className="no-book">
             <BookOpen className="icon" />
-            <p>No active book yet. Add one below!</p>
+            <p>No current book yet. Add one below!</p>
           </div>
         )}
       </section>

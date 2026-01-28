@@ -36,7 +36,7 @@ export const Login = () => {
             <Book />
           </div>
           <h1>Welcome to BookBud!</h1>
-          <p>Here to make book clubbing more fun!</p>
+          <p>Here to make book clubbing fun!</p>
         </div>
 
         <div className="login-card">

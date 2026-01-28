@@ -45,11 +45,11 @@ export const ActiveBookCard = () => {
   }, [pagesRead]);
 
   if (isLoading) {
-    return <p>Loading active book...</p>;
+    return <p>Loading current book...</p>;
   }
 
   if (!activeBook) {
-    return <p>No active book found</p>;
+    return <p>No current book found</p>;
   }
 
   const handleUpdateProgress = async () => {
