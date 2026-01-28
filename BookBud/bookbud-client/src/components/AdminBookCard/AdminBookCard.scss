@@ -106,19 +106,10 @@
           height: 16px;
         }
 
-        &.edit-btn {
-          background-color: #fef3c7;
-
-          &:hover {
-            background-color: #fde68a;
-          }
-        }
-
         &.delete-btn {
-          background-color: #fee2e2;
-
-          &:hover {
-            background-color: #fecaca;
+          svg {
+            position: relative;
+            bottom: 1.7px;
           }
         }
       }
