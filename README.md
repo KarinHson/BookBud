@@ -86,7 +86,7 @@ If development continues, the project could be expanded in several ways:
 
 ## 🔗 Live Version & Repository Link
 
-You can view the live version of this project [here](bookbud-client.vercel.app/). 
+You can view the live version of this project [here](https://bookbud-client.vercel.app/). 
 
 Repository link:
 https://github.com/KarinHson/BookBud
